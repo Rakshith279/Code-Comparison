@@ -1,99 +1,45 @@
+
 {
-  "crack_width": {
-    "title": "Crack Width Limitations & Serviceability",
-    "keywords": ["crack width", "cracking", "serviceability", "durability", "water tightness", "concrete crack", "irc 112 crack", "fib model code 2010"],
-    "description": "Limiting surface crack widths under quasi-permanent or frequent load combinations to protect inner reinforcement steel from aggressive carbonation, chloride ingress, and corrosion.",
-    "codes": {
-      "IS 456 / IS 3370 (Indian Buildings & Water Tanks)": {
-        "clause": "IS 456 Annex F / IS 3370 Part 2",
-        "limit": "0.3 mm for standard buildings; strictly limited down to 0.2 mm or 0.1 mm for liquid-retaining industrial structures.",
-        "formula": "$$w = \\frac{3 a_c \\Delta \\epsilon_m}{1 + 2\\left(\\frac{a_c - c_{min}}{h - x}\\right)}$$",
-        "notation": "**w** = Design crack width at the surface point; **a_c** = Distance to the nearest longitudinal rebar face; **Δε_m** = Average calculated strain at the structural level considered; **c_min** = Minimum clear concrete cover; **h** = Total depth of cross-section; **x** = Depth of neutral axis from compression face.",
-        "consensus": "💡 **Design Office Insight:** Highly theoretical approach. For standard buildings (IS 456), engineers rarely run this direct calculation unless dealing with massive cantilevers, relying instead on detailing rules. However, for water structures (IS 3370), the 0.1mm/0.2mm limits make this the governing criteria for slab thickness, often overriding bending moment steel requirements."
-      },
-      "IRC 112 (Indian Highway Bridges)": {
-        "clause": "IRC 112 Clause 12.3.4 / Table 12.1",
-        "limit": "0.3 mm for Reinforced Concrete (RC) under frequent loads; restricted tightly down to 0.2 mm for Pre-tensioned / Post-tensioned structures.",
-        "formula": "$$w_k = s_{r,max} (\\epsilon_{sm} - \\epsilon_{cm})$$",
-        "notation": "**w_k** = Design surface crack width; **s_r,max** = Maximum crack spacing evaluated as $3.4c + 0.425 k_1 k_2 \\phi / \\rho_{p,eff}$; **ε_sm** = Mean strain in reinforcement profile under load; **ε_cm** = Mean strain in concrete between adjacent cracks.",
-        "consensus": "💡 **Design Office Insight:** **Incredibly Stringent.** Because bridges face a mandatory 100-year design life with aggressive environmental exposure, IRC 112 forces much tighter reinforcement spacing compared to IS 456. It is highly conservative regarding tension-stiffening effects."
-      },
-      "Eurocode 2 (EN 1992-1-1 European Infrastructure)": {
-        "clause": "Clause 7.3.4 (Direct Calculation)",
-        "limit": "0.3 mm default for standard exposure categories (XC2 to XC4); 0.2 mm or lower for severe marine environments (XS/XD class).",
-        "formula": "$$w_k = s_{r,max} (\\epsilon_{sm} - \\epsilon_{cm})$$",
-        "notation": "**w_k** = Calculated characteristic surface crack width; **s_r,max** = Maximum crack spacing under stress; **ε_sm** = Mean strain in tension reinforcement profile; **ε_cm** = Mean strain in concrete between adjacent tension cracks.",
-        "consensus": "💡 **Design Office Insight:** **The Balanced Baseline.** The industry baseline for modern code philosophy. IRC 112 was explicitly adapted from this framework. It provides a mathematically consistent approach, accounting for concrete's true tensile capacity between cracks."
-      },
-      "ACI 318 (American Concrete Institute)": {
-        "clause": "Section 24.3.2 (Indirect Crack Control)",
-        "limit": "Abandons explicit direct crack width calculation formulas. Controls cracking by strictly governing the center-to-center spacing of the tensile steel.",
-        "formula": "$$s = 15\\left(\\frac{40,000}{f_s}\\right) - 2.5 c_c \\le 12\\left(\\frac{40,000}{f_s}\\right)$$",
-        "notation": "**s** = Maximum center-to-center spacing of flexural steel; **f_s** = Calculated stress in reinforcement at service loads (psi); **c_c** = Clear cover from closest bar surface to the outermost tension face.",
-        "consensus": "💡 **Design Office Insight:** **The Most Lenient & Practical.** American engineers argue that explicit crack width equations give a false sense of mathematical precision because real-world cracking is highly variable. By removing the formula and enforcing strict maximum rebar spacing limits instead, ACI dramatically speeds up design office delivery and lowers calculation overhead."
-      },
-      "fib Model Code 2010 (International Consensus)": {
-        "clause": "Chapter 7.6.4.4 (Direct Evaluation)",
-        "limit": "0.3 mm default for standard civil structures; scalable down to 0.1 mm based on highly precise probabilistic service life design choices.",
-        "formula": "$$w_d = 2 \\cdot l_s \\cdot (\\epsilon_{sm} - \\epsilon_{cm} - \\epsilon_{sh})$$",
-        "notation": "**w_d** = Design crack width; **l_s** = Slip/Transfer length from the crack face; **ε_sm** = Mean steel strain; **ε_cm** = Mean concrete strain; **ε_sh** = Shrinkage strain modifier component.",
-        "consensus": "💡 **Design Office Insight:** **The Most Scientifically Accurate & Rigorous.** Unlike Eurocode 2 or IRC 112 which bundle calculations into a fixed maximum spacing variable ($s_{r,max}$), *fib* Model Code 2010 isolates the actual length over which slip between steel and concrete occurs ($l_s$). It even factors in pure concrete shrinkage strains ($\\epsilon_{sh}$) over time, making it the most accurate but calculation-heavy model available."
-      }
-    }
-  },
   "concrete_cover": {
     "title": "Nominal Concrete Cover for Durability",
-    "keywords": ["concrete cover", "clear cover", "nominal cover", "durability cover", "corrosion protection", "exposure class"],
-    "description": "Minimum clear distance from the concrete surface to the outermost reinforcement bar to protect against environmental degradation and fire exposure.",
+    "keywords": ["concrete cover", "clear cover", "nominal cover", "durability cover", "corrosion protection", "exposure class", "precast cover", "cast in situ"],
+    "description": "Determining the minimum clear distance from the concrete surface to the outermost reinforcement bar (links/stirrups) to protect steel from environmental ingress, carbonation, and fire exposure throughout the design life.",
     "codes": {
-      "IS 456 / IS 3370 (Indian)": {
+      "IS 456 / IS 3370 (Indian Buildings & Water Tanks)": {
         "clause": "IS 456 Table 16 / IS 3370 Part 1 Table 1",
-        "limit": "Mild (20mm), Moderate (30mm), Severe (45mm). Liquid-retaining faces require a minimum of 45mm cover.",
+        "limit": "Mild (20mm), Moderate (30mm), Severe (45mm), Very Severe (50mm), Extreme (75mm). Liquid-retaining faces in IS 3370 require a flat minimum of 45mm cover.",
         "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
-        "notation": "**c_nom** = Nominal cover specified on drawings; **c_min** = Minimum required cover for environmental exposure; **Δc_dev** = Allowance for deviation tolerance (often taken as 0mm if strict QA is maintained).",
-        "consensus": "💡 **Design Office Insight:** Highly lenient on execution tolerances. It assumes perfect construction placement ($\\Delta c_{dev} = 0$), which can lead to rapid rebar corrosion on real-world Indian building sites if quality control drops."
+        "notation": "**c_nom** = Nominal cover specified on drawings; **c_min** = Minimum required cover for environmental exposure; **Δc_dev** = Allowance for execution deviation tolerance (typically assumed as 0mm on design office drawings).",
+        "consensus": "💡 **Design Office Insight:** **No Precast Correction:** Unlike bridge codes, IS 456 does not explicitly lower cover requirements for precast components in its primary durability matrix, enforcing identical limits regardless of factory control. Furthermore, allowing engineers to assume $\\Delta c_{dev} = 0\\text{mm}$ ignores common placement errors on standard commercial building sites."
       },
       "IRC 112 (Indian Highway Bridges)": {
-        "clause": "IRC 112 Table 14.2",
-        "limit": "Moderate exposure requires 40mm cover; Severe requires 45mm; Very Severe/Marine requires 50mm.",
-        "formula": "$$c_{nom} = c_{min,dur} + t_{bar} + \\Delta c_{dev}$$",
-        "notation": "**c_nom** = Total nominal clear cover; **c_min,dur** = Minimum cover for durability; **t_bar** = Factor adding bar diameter considerations; **Δc_dev** = Mandatory construction deviation margin (minimum 10mm).",
-        "consensus": "💡 **Design Office Insight:** Far more stringent than building codes. By forcing a mandatory +10mm execution error safety buffer into the drawing properties, it effectively guarantees thick, protective concrete zones even if construction labor is imperfect."
+        "clause": "IRC 112 Section 14 / Table 14.2",
+        "limit": "Varies by methodology: Moderate exposure demands 40mm for cast-in-situ but drops down to 35mm for factory precast concrete segments. Severe exposure requires 45mm for cast-in-situ.",
+        "formula": "$$c_{nom} = c_{min,dur} + \\Delta c_{dur,\\gamma} - \\Delta c_{dur,st} - \\Delta c_{dur,add} + \\Delta c_{dev}$$",
+        "notation": "**c_nom** = Total nominal clear cover; **c_min,dur** = Absolute minimum cover for durability based on environmental class; **Δc_dur,γ** = Safety element correction modifier; **Δc_dur,st** = Stainless steel reduction factor; **Δc_dur,add** = Additional coating protection factor; **Δc_dev** = Execution variance allowance (10mm mandatory for cast-in-situ; can be reduced to 5mm or 0mm for factory precision precast machinery).",
+        "consensus": "💡 **Design Office Insight:** **Highly Exact & Differentiated.** This is where the code rewards engineering control. By certifying a factory precast setup, you can reduce the clear cover property down to 35mm. This reduction saves material costs across thousands of precast bridge segments and minimizes crack widths under serviceability states by keeping tension steel closer to the concrete boundary."
       },
       "Eurocode 2 (EN 1992-1-1)": {
         "clause": "Clause 4.4.1",
-        "limit": "Determined via structural class mapped against environmental exposure classes (XC, XD, XS). Covers range from 15mm to 55mm.",
+        "limit": "Determined via structural class (e.g., S4 for 50-year life, S6 for 100-year bridge life) mapped against environmental exposure classes (XC, XD, XS). Nominal covers range from 15mm up to 55mm.",
         "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
-        "notation": "**c_nom** = Target nominal drawing cover; **c_min** = Absolute minimum cover considering bond and environment; **Δc_dev** = Standard safety allowance for execution variance (fixed at 10mm).",
-        "consensus": "💡 **Design Office Insight:** The most highly detailed, customizable framework. It forces engineers to run structural classifications based on expected building life spans (50 vs 100 years), meaning a standard column could have wildly different covers depending on its asset value."
+        "notation": "**c_nom** = Target nominal drawing cover; **c_min** = Absolute minimum cover considering bond and environment; **Δc_dev** = Standard safety allowance for execution variance (fixed at 10mm unless specialized reduction QA applies).",
+        "consensus": "💡 **Design Office Insight:** **Structural Life Scaling:** Driven explicitly by target design life asset classifications. If you design a bridge component for a 100-year lifespan under Class S6, the cover increases by two structural sub-classes compared to a standard 50-year commercial building layout."
+      },
+      "ACI 318 (American Concrete Institute)": {
+        "clause": "Section 20.6.1 (Table 20.6.1.3.1)",
+        "limit": "Not driven by exposure classes, but by direct physical element type: Concrete cast against earth (3 in / 75mm); Exposed to weather: #6 to #18 bars (2 in / 50mm), #5 bars or smaller (1.5 in / 38mm).",
+        "formula": "$$\\text{No explicit calculation formula or mathematical framework provided in the code text.}$$",
+        "notation": "**No variables available:** ACI 318 does not use variable accumulation modeling for nominal cover, utilizing static, flat prescriptive table data lookup limits instead.",
+        "consensus": "💡 **Design Office Insight:** **No Durability Modeling Matrix:** ACI completely skips the complex calculations of mapping out environmental sub-classes (like carbonation vs. chloride diffusion). It provides bold, simple geometric constraints based on element type. This accelerates design office production velocity but provides no mathematical method to analyze custom performance-based life cycles."
       },
       "fib Model Code 2010 (International Consensus)": {
         "clause": "Chapter 7.5.2 (Performance-Based Durability)",
-        "limit": "Calculated dynamically based on structural reliability index target (\\beta = 1.5 to 3.8) and carbonation/chloride diffusion models.",
+        "limit": "Calculated dynamically based on structural reliability index target ($\\beta = 1.5\\text{ to }3.8$) and carbonation/chloride diffusion models.",
         "formula": "$$P(t) = P\\{c_{nom} - x(t) < 0\\} \\le P_{target}$$",
-        "notation": "**P(t)** = Probability of corrosion initiation; **c_nom** = Nominal target design cover; **x(t)** = Penetration depth of carbonation/chlorides at time $t$; **P_target** = Target safety threshold coefficient.",
-        "consensus": "💡 **Design Office Insight:** **The Most Progressive & Flexible.** While standard codes prescribe static 'lookup tables' for cover (e.g., 40mm for severe exposure), *fib* Model Code 2010 allows you to run full mathematical predictive modeling. If you use high-performance concrete with low permeability, the tool allows you to safely decrease your clear cover dimensions while fully satisfying long-term asset life criteria."
-      }
-    }
-  },
-  "punching_shear": {
-    "title": "Punching Shear Checks (Two-Way Shear)",
-    "keywords": ["punching shear", "two way shear", "flat slab", "foundation shear", "column footing", "slab shear"],
-    "description": "Evaluating critical shear perimeter stresses around concentrated loads, column heads, or pile foundations.",
-    "codes": {
-      "IS 456 / IRC 112": {
-        "clause": "IS 456 Clause 31.6 / IRC 112 Clause 10.4",
-        "limit": "Calculated nominal shear stress matrix must be less than structural threshold limit ($k_s \\cdot \\tau_c$).",
-        "formula": "$$\\tau_v = \\frac{V_u}{b_0 d}$$",
-              "fib Model Code 2010 (International Consensus)": {
-        "clause": "Chapter 7.3.5 (Critical Shear Crack Theory)",
-        "limit": "Evaluated at a control perimeter 0.5d from the column face, but capacity is directly calculated from the physical rotation of the slab.",
-        "formula": "$$v_{Rd,c} = \\frac{0.18}{\\gamma_c} \\cdot k_{dg} \\cdot \\sqrt{f_{ck}} \\cdot \\left(\\frac{1}{1 + 15 \\cdot \\psi \\cdot \\frac{d}{d_{dg}}}\\right)$$",
-        "notation": "**v_Rd,c** = Punching shear concrete resistance capacity; **ψ** = Rotation angle of the slab around the column support; **k_dg** = Aggregate size scaling factor parameter; **d_dg** = Reference parameter for aggregate rough surface mechanics.",
-        "consensus": "💡 **Design Office Insight:** **The Most Physics-Driven.** Instead of relying solely on empirical test curves, *fib* Model Code 2010 bases its calculation entirely on the **Critical Shear Crack Theory (CSCT)**. It calculates how much the slab physically bends and rotates (\\psi) around the column head under load. If the slab rotates too much, the internal shear cracks open up, dropping the capacity. It provides four 'Levels of Approximation' (LoA I to LoA IV), letting engineers swap simple assumptions for highly detailed, finite-element non-linear analysis when checking old structures."
+        "notation": "**P(t)** = Probability of corrosion initiation over asset life timeline $t$; **c_nom** = Nominal target design cover; **x(t)** = Penetration depth of carbonation/chlorides at time $t$; **P_target** = Target safety threshold coefficient.",
+        "consensus": "💡 **Design Office Insight:** **The Absolute Scientific Peak.** While standard prescriptive codes enforce rigid 'lookup tables' for cover, *fib* Model Code 2010 allows full predictive mathematical modeling. If you utilize high-performance, low-permeability concrete matrix properties, this approach allows you to safely decrease clear cover dimensions while fully satisfying strict long-term asset life criteria."
       }
     }
   }
-}
-
 }
