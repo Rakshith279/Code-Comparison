@@ -3,17 +3,15 @@ import json
 
 st.set_page_config(page_title="Global Structural Code Matrix", layout="wide")
 st.title("🏗️ Smart Structural Engineering Multi-Code Index")
-st.subheader("Instantly map equivalents across IS, IRC, Eurocode, ACI, and DNV standards.")
+st.subheader("Instantly map equivalents across IS, IRC, Eurocode, ACI, and fib Model Code standards.")
 st.markdown("---")
 
 try:
-    # Changed to relative path so it runs seamlessly on both local machines and GitHub servers
     with open("data.json", "r", encoding="utf-8") as f:
         database = json.load(f)
 except FileNotFoundError:
-    st.error("Missing data.json file in the root repository directory.")
+    st.error("Missing data.json file in your directory.")
     st.stop()
-
 
 user_query = st.text_input("🔎 Type a design check or component:", placeholder="e.g., Punching shear, Crack width...").strip().lower()
 matched_entries = []
@@ -45,3 +43,7 @@ else:
                     if "notation" in details:
                         st.markdown("**Notations & Parameter Explanations:**")
                         st.caption(details["notation"])
+                    
+                    if "consensus" in details:
+                        st.markdown("---")
+                        st.markdown(details["consensus"])
