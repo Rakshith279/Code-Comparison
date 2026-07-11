@@ -37,7 +37,7 @@
         "limit": "0.3 mm default for standard civil structures; scalable down to 0.1 mm based on highly precise probabilistic service life design choices.",
         "formula": "$$w_d = 2 \\cdot l_s \\cdot (\\epsilon_{sm} - \\epsilon_{cm} - \\epsilon_{sh})$$",
         "notation": "**w_d** = Design crack width; **l_s** = Slip/Transfer length from the crack face; **ε_sm** = Mean steel strain; **ε_cm** = Mean concrete strain; **ε_sh** = Shrinkage strain modifier component.",
-        "consensus": "💡 **Design Office Insight:** **The Most Scientifically Accurate & Rigorous.** Unlike Eurocode 2 or IRC 112 which bundle calculations into a fixed maximum spacing variable ($s_{r,max}$), *fib* Model Code 2010 isolates the actual length over which slip between steel and concrete occurs ($l_s$). It even factors in pure concrete shrinkage strains ($\epsilon_{sh}$) over time, making it the most accurate but calculation-heavy model available."
+        "consensus": "💡 **Design Office Insight:** **The Most Scientifically Accurate & Rigorous.** Unlike Eurocode 2 or IRC 112 which bundle calculations into a fixed maximum spacing variable ($s_{r,max}$), *fib* Model Code 2010 isolates the actual length over which slip between steel and concrete occurs ($l_s$). It even factors in pure concrete shrinkage strains ($\\epsilon_{sh}$) over time, making it the most accurate but calculation-heavy model available."
       }
     }
   },
@@ -51,7 +51,7 @@
         "limit": "Mild (20mm), Moderate (30mm), Severe (45mm). Liquid-retaining faces require a minimum of 45mm cover.",
         "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
         "notation": "**c_nom** = Nominal cover specified on drawings; **c_min** = Minimum required cover for environmental exposure; **Δc_dev** = Allowance for deviation tolerance (often taken as 0mm if strict QA is maintained).",
-        "consensus": "💡 **Design Office Insight:** Highly lenient on execution tolerances. It assumes perfect construction placement ($\Delta c_{dev} = 0$), which can lead to rapid rebar corrosion on real-world Indian building sites if quality control drops."
+        "consensus": "💡 **Design Office Insight:** Highly lenient on execution tolerances. It assumes perfect construction placement ($\\Delta c_{dev} = 0$), which can lead to rapid rebar corrosion on real-world Indian building sites if quality control drops."
       },
       "IRC 112 (Indian Highway Bridges)": {
         "clause": "IRC 112 Table 14.2",
@@ -69,7 +69,7 @@
       },
       "fib Model Code 2010 (International Consensus)": {
         "clause": "Chapter 7.5.2 (Performance-Based Durability)",
-        "limit": "Calculated dynamically based on structural reliability index target (β = 1.5 to 3.8) and carbonation/chloride diffusion models.",
+        "limit": "Calculated dynamically based on structural reliability index target (\\beta = 1.5 to 3.8) and carbonation/chloride diffusion models.",
         "formula": "$$P(t) = P\\{c_{nom} - x(t) < 0\\} \\le P_{target}$$",
         "notation": "**P(t)** = Probability of corrosion initiation; **c_nom** = Nominal target design cover; **x(t)** = Penetration depth of carbonation/chlorides at time $t$; **P_target** = Target safety threshold coefficient.",
         "consensus": "💡 **Design Office Insight:** **The Most Progressive & Flexible.** While standard codes prescribe static 'lookup tables' for cover (e.g., 40mm for severe exposure), *fib* Model Code 2010 allows you to run full mathematical predictive modeling. If you use high-performance concrete with low permeability, the tool allows you to safely decrease your clear cover dimensions while fully satisfying long-term asset life criteria."
