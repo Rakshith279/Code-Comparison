@@ -85,4 +85,14 @@
         "clause": "IS 456 Clause 31.6 / IRC 112 Clause 10.4",
         "limit": "Calculated nominal shear stress matrix must be less than structural threshold limit ($k_s \\cdot \\tau_c$).",
         "formula": "$$\\tau_v = \\frac{V_u}{b_0 d}$$",
+              "fib Model Code 2010 (International Consensus)": {
+        "clause": "Chapter 7.3.5 (Critical Shear Crack Theory)",
+        "limit": "Evaluated at a control perimeter 0.5d from the column face, but capacity is directly calculated from the physical rotation of the slab.",
+        "formula": "$$v_{Rd,c} = \\frac{0.18}{\\gamma_c} \\cdot k_{dg} \\cdot \\sqrt{f_{ck}} \\cdot \\left(\\frac{1}{1 + 15 \\cdot \\psi \\cdot \\frac{d}{d_{dg}}}\\right)$$",
+        "notation": "**v_Rd,c** = Punching shear concrete resistance capacity; **ψ** = Rotation angle of the slab around the column support; **k_dg** = Aggregate size scaling factor parameter; **d_dg** = Reference parameter for aggregate rough surface mechanics.",
+        "consensus": "💡 **Design Office Insight:** **The Most Physics-Driven.** Instead of relying solely on empirical test curves, *fib* Model Code 2010 bases its calculation entirely on the **Critical Shear Crack Theory (CSCT)**. It calculates how much the slab physically bends and rotates (\\psi) around the column head under load. If the slab rotates too much, the internal shear cracks open up, dropping the capacity. It provides four 'Levels of Approximation' (LoA I to LoA IV), letting engineers swap simple assumptions for highly detailed, finite-element non-linear analysis when checking old structures."
       }
+    }
+  }
+}
+
