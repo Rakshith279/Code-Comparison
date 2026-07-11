@@ -1,0 +1,83 @@
+{
+  "crack_width": {
+    "title": "Crack Width Limitations & Serviceability",
+    "keywords": ["crack width", "cracking", "serviceability", "durability", "water tightness", "concrete crack"],
+    "description": "Limiting crack widths to ensure durability, protect reinforcement from corrosion, and maintain structural integrity.",
+    "codes": {
+      "IS 456 / IS 3370 (Indian)": {
+        "clause": "IS 456 Annex F / IS 3370 Part 2",
+        "limit": "0.3 mm for general structures; 0.2 mm for liquid-retaining surfaces.",
+        "formula": "$$w = \\frac{3 a_c \\epsilon_m}{1 + 2\\left(\\frac{a_c - c_{min}}{h - x}\\right)}$$",
+        "notation": "**w** = Design crack width at surface; **a_c** = Distance to the nearest longitudinal reinforcing bar; **ε_m** = Average strain at the level considered; **c_min** = Minimum clear concrete cover; **h** = Total depth of member; **x** = Neutral axis depth."
+      },
+      "Eurocode 2 (EN 1992-1-1)": {
+        "clause": "Clause 7.3.4",
+        "limit": "0.3 mm for standard exposure classes (XC2 to XC4); 0.2 mm for severe environmental/marine criteria.",
+        "formula": "$$w_k = s_{r,max} (\\epsilon_{sm} - \\epsilon_{cm})$$",
+        "notation": "**w_k** = Calculated design crack width; **s_r,max** = Maximum crack spacing under stress; **ε_sm** = Mean strain in reinforcement profile; **ε_cm** = Mean strain in concrete between cracks."
+      },
+      "ACI 318 (American)": {
+        "clause": "Section 24.3.2 (Indirect Control)",
+        "limit": "No explicit calculated crack width formula. Controls cracking by limiting maximum center-to-center spacing of steel.",
+        "formula": "$$s = 15\\left(\\frac{40,000}{f_s}\\right) - 2.5 c_c \\le 12\\left(\\frac{40,000}{f_s}\\right)$$",
+        "notation": "**s** = Maximum center-to-center spacing of flexural steel; **f_s** = Calculated stress in reinforcement at service loads (psi); **c_c** = Clear cover from closest bar surface to tension face."
+      }
+    }
+  },
+  "concrete_cover": {
+    "title": "Nominal Concrete Cover for Durability",
+    "keywords": ["concrete cover", "clear cover", "nominal cover", "durability cover", "corrosion protection", "exposure class"],
+    "description": "Minimum clear distance from the concrete surface to the outermost reinforcement bar to protect against environmental degradation and fire exposure.",
+    "codes": {
+      "IS 456 / IS 3370 (Indian)": {
+        "clause": "IS 456 Table 16 / IS 3370 Part 1 Table 1",
+        "limit": "Mild (20mm), Moderate (30mm), Severe (45mm). Liquid-retaining faces require a minimum of 45mm cover.",
+        "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
+        "notation": "**c_nom** = Nominal cover specified on drawings; **c_min** = Minimum required cover for environmental exposure; **Δc_dev** = Allowance for deviation tolerance (often taken as 0mm if strict QA is maintained)."
+      },
+      "IRC 112 (Indian Highway Bridges)": {
+        "clause": "IRC 112 Table 14.2",
+        "limit": "Moderate exposure requires 40mm cover; Severe requires 45mm; Very Severe/Marine requires 50mm.",
+        "formula": "$$c_{nom} = c_{min,dur} + t_{bar} + \\Delta c_{dev}$$",
+        "notation": "**c_nom** = Total nominal clear cover; **c_min,dur** = Minimum cover for durability; **t_bar** = Factor adding bar diameter considerations; **Δc_dev** = Mandatory construction deviation margin (minimum 10mm)."
+      },
+      "Eurocode 2 (EN 1992-1-1)": {
+        "clause": "Clause 4.4.1",
+        "limit": "Determined via structural class mapped against environmental exposure classes (XC, XD, XS). Covers range from 15mm to 55mm.",
+        "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
+        "notation": "**c_nom** = Target nominal drawing cover; **c_min** = Absolute minimum cover considering bond and environment; **Δc_dev** = Standard safety allowance for execution variance (fixed at 10mm)."
+      },
+      "DNV-ST-0125 / C502 (Wind/Offshore)": {
+        "clause": "DNV-ST-C502 Section 6.5",
+        "limit": "Atmospheric zone demands 50mm; Splash/Submerged marine zones demand a minimum of 70mm to 80mm cover.",
+        "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
+        "notation": "**c_nom** = Final required offshore execution cover; **c_min** = Minimum safety threshold for long-term saline immersion durability; **Δc_dev** = Execution variance factor (typically 10mm to 15mm)."
+      }
+    }
+  },
+  "punching_shear": {
+    "title": "Punching Shear Checks (Two-Way Shear)",
+    "keywords": ["punching shear", "two way shear", "flat slab", "foundation shear", "column footing", "slab shear"],
+    "description": "Evaluating critical shear perimeter stresses around concentrated loads, column heads, or pile foundations.",
+    "codes": {
+      "IS 456 / IRC 112": {
+        "clause": "IS 456 Clause 31.6 / IRC 112 Clause 10.4",
+        "limit": "Calculated nominal shear stress matrix must be less than structural threshold limit ($k_s \\cdot \\tau_c$).",
+        "formula": "$$\\tau_v = \\frac{V_u}{b_0 d}$$",
+        "notation": "**τ_v** = Nominal punching shear stress; **V_u** = Factored ultimate shear force applied at the column; **b_0** = Perimeter of the critical section located at a distance of $0.5d$ from column face; **d** = Effective depth of slab section."
+      },
+      "Eurocode 2 (EN 1992-1-1)": {
+        "clause": "Clause 6.4",
+        "limit": "Evaluated at a basic control perimeter $2d$ from the loaded area. Value relies on steel reinforcement geometry ratios.",
+        "formula": "$$v_{Rd,c} = C_{Rd,c} k (100 \\rho_l f_{ck})^{1/3}$$",
+        "notation": "**v_Rd,c** = Design punching shear resistance of concrete without shear steel; **C_Rd,c** = Empirical calibration coefficient factor; **k** = Size effect modifier factor; **ρ_l** = Longitudinal reinforcement ratio; **f_ck** = Characteristic cylinder compressive strength."
+      },
+      "ACI 318 (American)": {
+        "clause": "Section 22.6",
+        "limit": "Evaluated at a critical perimeter $d/2$ from column face. Governed by the minimum of three boundary shear equations.",
+        "formula": "$$v_c = \\min\\left(2+\\frac{4}{\\beta},\\, \\frac{\\alpha_s d}{b_0}+2,\\, 4\\right) \\lambda \\sqrt{f'_c}$$",
+        "notation": "**v_c** = Nominal shear strength provided by concrete matrix; **β** = Ratio of long side to short side of the column profile; **α_s** = Scale constant based on column location (Interior=40, Edge=30, Corner=20); **b_0** = Critical perimeter at $d/2$; **d** = Slab effective structural depth; **λ** = Lightweight concrete density modifier factor; **f'_c** = Concrete compressive cylinder strength."
+      }
+    }
+  }
+}
