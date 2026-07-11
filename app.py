@@ -7,12 +7,13 @@ st.subheader("Instantly map equivalents across IS, IRC, Eurocode, ACI, and DNV s
 st.markdown("---")
 
 try:
-    # Fixed with explicit UTF-8 encoding configuration to read Greek engineering symbols smoothly
-    with open(r"E:\IEL\Python\structural-code-tool\data.json", "r", encoding="utf-8") as f:
+    # Changed to relative path so it runs seamlessly on both local machines and GitHub servers
+    with open("data.json", "r", encoding="utf-8") as f:
         database = json.load(f)
 except FileNotFoundError:
-    st.error("Missing data.json file at E:\\IEL\\Python\\structural-code-tool\\data.json")
+    st.error("Missing data.json file in the root repository directory.")
     st.stop()
+
 
 user_query = st.text_input("🔎 Type a design check or component:", placeholder="e.g., Punching shear, Crack width...").strip().lower()
 matched_entries = []
