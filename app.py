@@ -1,18 +1,22 @@
+```python
 import streamlit as st
 import json
 
+# Force widescreen structural grid layout
 st.set_page_config(page_title="Global Structural Code Matrix", layout="wide")
 st.title("🏗️ Smart Structural Engineering Multi-Code Index")
 st.subheader("Instantly map equivalents across IS, IRC, Eurocode, ACI, and fib Model Code standards.")
 st.markdown("---")
 
 try:
+    # Uses a clean relative path so the tool runs on local E: drives or GitHub servers seamlessly
     with open("data.json", "r", encoding="utf-8") as f:
         database = json.load(f)
 except FileNotFoundError:
-    st.error("Missing data.json file in your directory.")
+    st.error("Missing data.json file in your directory. Please ensure app.py and data.json are in the same folder.")
     st.stop()
 
+# Real-time search engine input bar
 user_query = st.text_input("🔎 Type a design check or component:", placeholder="e.g., Punching shear, Crack width...").strip().lower()
 matched_entries = []
 
@@ -24,14 +28,17 @@ else:
     matched_entries = list(database.values())
 
 if not matched_entries:
-    st.warning("⚠️ No specific match found.")
+    st.warning("⚠️ No specific match found. Try entering alternative terms like 'shear', 'cover', or 'concrete'.")
 else:
     for topic in matched_entries:
         with st.expander(f"📊 {topic['title']}", expanded=True):
             st.markdown(f"**Engineering Objective:** {topic['description']}")
             st.markdown("---")
+            
+            # Dynamically split screen columns based on the number of standards configured in the entry
             code_items = list(topic["codes"].items())
             cols = st.columns(len(code_items))
+            
             for idx, (code_name, details) in enumerate(code_items):
                 with cols[idx]:
                     st.markdown(f"#### {code_name}")
