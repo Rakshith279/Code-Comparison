@@ -85,3 +85,4 @@
         "clause": "IS 456 Clause 31.6 / IRC 112 Clause 10.4",
         "limit": "Calculated nominal shear stress matrix must be less than structural threshold limit ($k_s \\cdot \\tau_c$).",
         "formula": "$$\\tau_v = \\frac{V_u}{b_0 d}$$",
+      }
