@@ -8,7 +8,7 @@ st.subheader("Instantly map equivalents across IS, IRC, Eurocode, ACI, and fib M
 st.markdown("---")
 
 try:
-    # Uses a clean relative path so the tool runs on local E: drives or GitHub servers seamlessly
+    # Clean relative path configuration for local environment or GitHub hosting server
     with open("data.json", "r", encoding="utf-8") as f:
         database = json.load(f)
 except FileNotFoundError:
@@ -16,7 +16,7 @@ except FileNotFoundError:
     st.stop()
 
 # Real-time search engine input bar
-user_query = st.text_input("🔎 Type a design check or component:", placeholder="e.g., Punching shear, Crack width...").strip().lower()
+user_query = st.text_input("🔎 Type a design check or component:", placeholder="e.g., Punching shear, Concrete cover...").strip().lower()
 matched_entries = []
 
 if user_query:
