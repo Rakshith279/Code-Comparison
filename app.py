@@ -8,14 +8,12 @@ st.subheader("Instantly map equivalents across IS, IRC, Eurocode, ACI, and fib M
 st.markdown("---")
 
 try:
-    # Clean relative path configuration for local environment or GitHub hosting server
     with open("data.json", "r", encoding="utf-8") as f:
         database = json.load(f)
 except FileNotFoundError:
     st.error("Missing data.json file in your directory. Please ensure app.py and data.json are in the same folder.")
     st.stop()
 
-# Real-time search engine input bar
 user_query = st.text_input("🔎 Type a design check or component:", placeholder="e.g., Punching shear, Concrete cover...").strip().lower()
 matched_entries = []
 
@@ -34,7 +32,6 @@ else:
             st.markdown(f"**Engineering Objective:** {topic['description']}")
             st.markdown("---")
             
-            # Dynamically split screen columns based on the number of standards configured in the entry
             code_items = list(topic["codes"].items())
             cols = st.columns(len(code_items))
             
@@ -44,7 +41,12 @@ else:
                     st.info(f"📑 **{details['clause']}**")
                     st.markdown(f"**Permissible Limit:**\n{details['limit']}")
                     st.markdown("**Governing Equation:**")
-                    st.write(details['formula'])
+                    
+                    # Fix: Explicitly isolate LaTeX math rendering to prevent layout overflow blocks
+                    if "$$" in details['formula']:
+                        st.latex(details['formula'].replace("$$", ""))
+                    else:
+                        st.markdown(f"*{details['formula']}*")
                     
                     if "notation" in details:
                         st.markdown("**Notations & Parameter Explanations:**")
