@@ -1,43 +1,48 @@
 {
   "concrete_cover": {
     "title": "Nominal Concrete Cover for Durability",
-    "keywords": ["concrete cover", "clear cover", "nominal cover", "durability cover", "corrosion protection", "exposure class", "precast cover", "cast in situ"],
-    "description": "Determining the minimum clear distance from the concrete surface to the outermost reinforcement bar (links/stirrups) to protect steel from environmental ingress, carbonation, and fire exposure throughout the design life.",
-    "codes": {
-      "IS 456 / IS 3370 (Indian Buildings & Water Tanks)": {
+    "description": "Full uncompressed cross-reference matrix tracking geometric requirements, governing equations, and exact code parameters.",
+    "standards": [
+      {
+        "code_name": "IS 456 / IS 3370",
         "clause": "IS 456 Table 16 / IS 3370 Part 1 Table 1",
-        "limit": "Mild (20mm), Moderate (30mm), Severe (45mm), Very Severe (50mm), Extreme (75mm). Liquid-retaining faces in IS 3370 require a flat minimum of 45mm cover.",
+        "limits": "Mild: 20mm | Moderate: 30mm | Severe: 45mm | Very Severe: 50mm | Extreme: 75mm. Note: Liquid-retaining faces in IS 3370 require a flat minimum of 45mm cover.",
         "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
-        "notation": "**c_nom** = Nominal cover specified on drawings; **c_min** = Minimum required cover for environmental exposure; **Δc_dev** = Allowance for execution deviation tolerance (typically assumed as 0mm on design office drawings)."
+        "notation": "**c_nom**: Nominal cover specified on drawings<br>**c_min**: Minimum required cover for environmental exposure<br>**Δc_dev**: Allowance for execution deviation tolerance (typically assumed as 0mm on design office drawings).",
+        "notes": "Standard prescriptive lookup."
       },
-      "IRC 112 (Indian Highway Bridges)": {
+      {
+        "code_name": "IRC 112",
         "clause": "IRC 112 Section 14 / Table 14.2",
-        "limit": "Varies explicitly by construction methodology: Moderate exposure requires 40mm for cast-in-situ but drops down to 35mm for factory precast concrete elements. Severe exposure demands 45mm.",
+        "limits": "Moderate: 40mm (Cast-in-situ), 35mm (Factory Precast)<br>Severe: 45mm (Cast-in-situ), 40mm (Factory Precast)<br>Very Severe: 50mm (Cast-in-situ), 45mm (Factory Precast)<br>Extreme: 75mm (Cast-in-situ), 65mm (Factory Precast)",
         "formula": "$$c_{nom} = c_{min,dur} + \\Delta c_{dur,\\gamma} - \\Delta c_{dur,st} - \\Delta c_{dur,add} + \\Delta c_{dev}$$",
-        "notation": "**c_nom** = Total nominal clear cover; **c_min,dur** = Absolute minimum cover for durability based on environmental class; **Δc_dur,γ** = Safety element correction modifier; **Δc_dur,st** = Stainless steel reduction factor; **Δc_dur,add** = Additional coating protection factor; **Δc_dev** = Execution variance allowance (10mm mandatory for cast-in-situ; can be reduced to 5mm or 0mm for precision precast machinery).",
-        "consensus": "💡 **Design Office Insight:** **Highly Exact & Differentiated.** This is where the code rewards engineering control. By certifying a factory precast setup, you can reduce the clear cover property down to 35mm. This reduction saves material costs across thousands of precast bridge segments and minimizes crack widths under serviceability states by keeping tension steel closer to the concrete boundary."
+        "notation": "**c_nom**: Total nominal clear cover<br>**c_min,dur**: Absolute minimum cover for durability based on environmental class<br>**Δc_dur,γ**: Safety element correction modifier<br>**Δc_dur,st**: Stainless steel reduction factor<br>**Δc_dur,add**: Additional coating protection factor<br>**Δc_dev**: Execution variance allowance (10mm mandatory for cast-in-situ; can be reduced to 5mm or 0mm for precision precast machinery).",
+        "notes": "Rewarding. Allows reductions for tight factory precast QA."
       },
-      "Eurocode 2 (EN 1992-1-1)": {
+      {
+        "code_name": "Eurocode 2 (EN 1992-1-1)",
         "clause": "Clause 4.4.1",
-        "limit": "Determined via structural class (e.g., S4 for 50-year life, S6 for 100-year bridge life) mapped against environmental exposure classes (XC, XD, XS). Nominal covers range from 15mm up to 55mm.",
+        "limits": "Mapped by Structural Class (S1 to S6) & Exposure Class:<br>• **XC1**: 15mm (S4) / 25mm (S6)<br>• **XC2/XC3**: 20mm (S4) / 30mm (S6)<br>• **XC4**: 25mm (S4) / 35mm (S6)<br>• **XD1/XS1**: 30mm (S4) / 40mm (S6)<br>• **XD2/XS2**: 35mm (S4) / 45mm (S6)<br>• **XD3/XS3**: 40mm (S4) / 50mm (S6)",
         "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
-        "notation": "**c_nom** = Target nominal drawing cover; **c_min** = Absolute minimum cover considering bond and environment; **Δc_dev** = Standard safety allowance for execution variance (fixed at 10mm unless specialized reduction QA applies).",
-        "consensus": "💡 **Design Office Insight:** **Structural Life Scaling:** Driven explicitly by target design life asset classifications. If you design a bridge component for a 100-year lifespan under Class S6, the cover increases by two structural sub-classes compared to a standard 50-year commercial building layout."
+        "notation": "**c_nom**: Target nominal drawing cover<br>**c_min**: Absolute minimum cover considering bond and environment ($$c_{min} = \\max\\{c_{min,b}; c_{min,dur}; 10\\text{mm}\\}$$)<br>**Δc_dev**: Standard safety allowance for execution variance (fixed at 10mm unless specialized reduction QA applies).",
+        "notes": "Rigorous life-cycle scaling. Highly dependent on asset design life."
       },
-      "ACI 318 (American Concrete Institute)": {
+      {
+        "code_name": "ACI 318 (American Concrete Institute)",
         "clause": "Section 20.6.1 (Table 20.6.1.3.1)",
-        "limit": "Not driven by exposure classes, but by direct physical element type: Concrete cast against earth (3 in / 75mm); Exposed to weather: #6 to #18 bars (2 in / 50mm), #5 bars or smaller (1.5 in / 38mm).",
+        "limits": "• **Concrete cast against/permanently exposed to earth**: 3 in (75mm)<br>• **Concrete exposed to earth or weather**: 2 in (50mm) for #6 through #18 bars; 1.5 in (38mm) for #5 bar, W31 or D31 wire, and smaller.<br>• **Concrete not exposed to weather or in contact with ground**: Slabs/Walls/Joists: 1.5 in (38mm) for #14/#18 bars; 0.75 in (20mm) for #11 and smaller. Beams/Columns: Primary reinforcement: 1.5 in (38mm).",
         "formula": "No Formula Provided",
-        "notation": "**No variables available:** ACI 318 does not use variable accumulation modeling for nominal cover, utilizing static, flat prescriptive table data lookup limits instead.",
-        "consensus": "💡 **Design Office Insight:** **No Durability Modeling Matrix:** ACI completely skips the complex calculations of mapping out environmental sub-classes (like carbonation vs. chloride diffusion). It provides bold, simple geometric constraints based on element type. This accelerates design office production velocity but provides no mathematical method to analyze custom performance-based life cycles."
+        "notation": "**No variables available**: ACI 318 does not use variable accumulation modeling for nominal cover, utilizing static, flat prescriptive table data lookup limits instead.",
+        "notes": "Extremely lenient & simple. No durability modeling matrix."
       },
-      "fib Model Code 2010 (International Consensus)": {
+      {
+        "code_name": "fib Model Code 2010 (International Consensus)",
         "clause": "Chapter 7.5.2 (Performance-Based Durability)",
-        "limit": "Calculated dynamically based on structural reliability index target (\\beta = 1.5 to 3.8) and carbonation/chloride diffusion models.",
+        "limits": "Calculated dynamically based on target structural reliability index ($$\\beta = 1.5\\text{ to }3.8$$) mapped against carbonation/chloride diffusion models over the specified service life timeline.",
         "formula": "$$P(t) = P [c_{nom} - x(t) < 0 ] \\le P_{target}$$",
-        "notation": "**P(t)** = Probability of corrosion initiation over asset life timeline $t$; **c_nom** = Nominal target design cover; **x(t)** = Penetration depth of carbonation/chlorides at time $t$; **P_target** = Target safety threshold coefficient.",
-        "consensus": "💡 **Design Office Insight:** **The Absolute Scientific Peak.** While standard prescriptive codes enforce rigid 'lookup tables' for cover, *fib* Model Code 2010 allows full predictive mathematical modeling. If you utilize high-performance, low-permeability concrete matrix properties, this approach allows you to safely decrease clear cover dimensions while fully satisfying strict long-term asset life criteria."
+        "notation": "**P(t)**: Probability of corrosion initiation over asset life timeline $t$<br>**c_nom**: Nominal target design cover<br>**x(t)**: Penetration depth of carbonation/chlorides at time $t$<br>**P_target**: Target safety threshold coefficient.",
+        "notes": "Highly scientific. Probabilistic math modeling based on diffusion."
       }
-    }
+    ]
   }
 }
