@@ -20,7 +20,7 @@ data = load_code_data()
 categories = data.get("categories", {})
 
 st.title("🏗️ Multi-Code Clause Cross-Reference Tool")
-st.caption("Production-ready side-by-side technical standard matrix mapping global structural engineering criteria.")
+st.caption("Side-by-side technical standard matrix mapping global structural engineering design criteria.")
 st.markdown("---")
 
 if not categories:
