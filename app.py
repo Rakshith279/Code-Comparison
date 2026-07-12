@@ -1,86 +1,113 @@
-import streamlit as st
-import json
-import os
-
-# 1. Page Configuration for an expansive wide layout
-st.set_page_config(
-    page_title="Multi-Code Clause Cross-Reference Tool",
-    page_icon="🏗️",
-    layout="wide"
-)
-
-# 2. Hard-load Data without caching to allow instant updates
-def load_code_data():
-    if os.path.exists("data.json"):
-        with open("data.json", "r") as f:
-            return json.load(f)
-    return {"categories": {}}
-
-data = load_code_data()
-categories = data.get("categories", {})
-
-st.title("🏗️ Multi-Code Clause Cross-Reference Tool")
-st.caption("Production-ready side-by-side technical standard matrix mapping global structural engineering criteria.")
-st.markdown("---")
-
-if not categories:
-    st.error("No engineering data found. Please ensure data.json is populated correctly.")
-else:
-    # 3. Top Search Engine
-    search_query = st.text_input("🔍 Search Design Topics (e.g., 'cover', 'buckling', 'anchor', 'IS 456'):").strip().lower()
-    
-    # Filter topics based on search keywords or text parameters
-    filtered_categories = {}
-    for key, value in categories.items():
-        search_blob = f"{value['title']} {value['description']} {value['keywords']}".lower()
-        if not search_query or search_query in search_blob:
-            filtered_categories[key] = value
-
-    if not filtered_categories:
-        st.warning("No structural topics found matching your search query.")
-    else:
-        # 4. Sidebar Navigation Panel using filtered dictionary elements
-        st.sidebar.header("Design Categories")
-        
-        # Build map displaying clean titles instead of raw JSON keys
-        display_map = {value['title']: key for key, value in filtered_categories.items()}
-        selected_title = st.sidebar.radio("Select Target Structural Check:", list(display_map.keys()))
-        
-        # Retrieve the final chosen topic dataset
-        target_key = display_map[selected_title]
-        item = categories[target_key]
-        
-        # 5. Main Clean Interface Output
-        st.subheader(item["title"])
-        st.info(item["description"])
-        st.markdown("<br>", unsafe_allow_html=True)
-        
-        # Grid loop displaying all cataloged design standards for that category
-        for std in item["standards"]:
-            st.markdown(f"#### 📘 {std['code_name']}")
-            
-            # 3-Column Split to isolate content and lock horizontal lines
-            col_meta, col_limits, col_equations = st.columns([1.2, 2.3, 2.5])
-            
-            with col_meta:
-                st.markdown("**Clause Reference:**")
-                st.code(std['clause'], language="text")
-                st.markdown("**Notes:**")
-                st.markdown(f"*{std['notes']}*")
-                
-            with col_limits:
-                st.markdown("**Permissible Limits / Criteria:**")
-                st.markdown(std['limits'], unsafe_allow_html=True)
-                
-            with col_equations:
-                st.markdown("**Governing Equation:**")
-                if std['formula'] == "No Formula Provided":
-                    st.caption("*No Formula Provided*")
-                else:
-                    st.markdown(std['formula'])
-                    
-                st.markdown("**Parameter Breakdown & Notations:**")
-                st.markdown(std['notation'], unsafe_allow_html=True)
-                
-            # Consistent Row Line Separator
-            st.markdown("<hr style='margin-top:1em;margin-bottom:2em;border-color:#4A5568;'>", unsafe_allow_html=True)
+{
+  "categories": {
+    "concrete_cover": {
+      "title": "Nominal Concrete Cover for Durability",
+      "description": "Minimum clear distance from concrete surface to outermost reinforcement bar to protect steel from environmental ingress.",
+      "keywords": "concrete cover clear durability corrosion crack width water tank bridge marine",
+      "standards": [
+        {
+          "code_name": "IS 456 / IS 3370 (Indian Buildings & Water Tanks)",
+          "clause": "IS 456 Table 16 / IS 3370 Part 1 Table 1",
+          "limits": "Mild: 20mm | Moderate: 30mm | Severe: 45mm | Very Severe: 50mm | Extreme: 75mm.<br>Note: Liquid-retaining faces in IS 3370 require a flat minimum of 45mm cover.",
+          "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
+          "notation": "**c_nom**: Nominal cover specified on drawings<br>**c_min**: Minimum required cover for environmental exposure<br>**Δc_dev**: Allowance for execution deviation tolerance (typically assumed as 0mm on design office drawings).",
+          "notes": "Standard prescriptive lookup."
+        },
+        {
+          "code_name": "IRC 112 (Indian Highway Bridges)",
+          "clause": "IRC 112 Section 14 / Table 14.2",
+          "limits": "Moderate: 40mm (Cast-in-situ), 35mm (Factory Precast)<br>Severe: 45mm (Cast-in-situ), 40mm (Factory Precast)<br>Very Severe: 50mm (Cast-in-situ), 45mm (Factory Precast)<br>Extreme: 75mm (Cast-in-situ), 65mm (Factory Precast)",
+          "formula": "$$c_{nom} = c_{min,dur} + \\Delta c_{dur,\\gamma} - \\Delta c_{dur,st} - \\Delta c_{dur,add} + \\Delta c_{dev}$$",
+          "notation": "**c_nom**: Total nominal clear cover<br>**c_min,dur**: Absolute minimum cover for durability based on environmental class<br>**Δc_dur,γ**: Safety element correction modifier<br>**Δc_dur,st**: Stainless steel reduction factor<br>**Δc_dur,add**: Additional coating protection factor<br>**Δc_dev**: Execution variance allowance (10mm mandatory for cast-in-situ; can be reduced to 5mm or 0mm for precision precast machinery).",
+          "notes": "Rewarding. Allows reductions for tight factory precast QA."
+        },
+        {
+          "code_name": "Eurocode 2 (EN 1992-1-1)",
+          "clause": "Clause 4.4.1",
+          "limits": "Mapped by Structural Class (S1 to S6) & Exposure Class:<br>• **XC1**: 15mm (S4) / 25mm (S6)<br>• **XC2/XC3**: 20mm (S4) / 30mm (S6)<br>• **XC4**: 25mm (S4) / 35mm (S6)<br>• **XD1/XS1**: 30mm (S4) / 40mm (S6)<br>• **XD2/XS2**: 35mm (S4) / 45mm (S6)<br>• **XD3/XS3**: 40mm (S4) / 50mm (S6)",
+          "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
+          "notation": "**c_nom**: Target nominal drawing cover<br>**c_min**: Absolute minimum cover considering bond and environment ($$c_{min} = \\max\\{c_{min,b}; c_{min,dur}; 10\\text{mm}\\}$$)<br>**Δc_dev**: Standard safety allowance for execution variance (fixed at 10mm unless specialized reduction QA applies).",
+          "notes": "Rigorous life-cycle scaling. Highly dependent on asset design life."
+        },
+        {
+          "code_name": "ACI 318 (American Concrete Institute)",
+          "clause": "Section 20.6.1 (Table 20.6.1.3.1)",
+          "limits": "• **Concrete cast against/permanently exposed to earth**: 3 in (75mm)<br>• **Concrete exposed to earth or weather**: 2 in (50mm) for #6 through #18 bars; 1.5 in (38mm) for #5 bar and smaller.<br>• **Concrete not exposed to weather or ground**: Slabs/Walls: 0.75 in (20mm) for #11 and smaller. Beams/Columns: Primary reinforcement: 1.5 in (38mm).",
+          "formula": "No Formula Provided",
+          "notation": "**No variables available**: ACI 318 does not use variable accumulation modeling for nominal cover, utilizing static, flat prescriptive table data lookup limits instead.",
+          "notes": "Extremely lenient & simple. No durability modeling matrix."
+        },
+        {
+          "code_name": "fib Model Code 2010 (International Consensus)",
+          "clause": "Chapter 7.5.2 (Performance-Based Durability)",
+          "limits": "Calculated dynamically based on target structural reliability index ($$\\beta = 1.5\\text{ to }3.8$$) mapped against carbonation/concrete chloride diffusion models over the specified service life timeline.",
+          "formula": "$$P(t) = P [c_{nom} - x(t) < 0 ] \\le P_{target}$$",
+          "notation": "**P(t)**: Probability of corrosion initiation over asset life timeline $t$<br>**c_nom**: Nominal target design cover<br>**x(t)**: Penetration depth of carbonation/chlorides at time $t$<br>**P_target**: Target safety threshold coefficient.",
+          "notes": "Highly scientific. Probabilistic math modeling based on diffusion."
+        }
+      ]
+    },
+    "shell_buckling": {
+      "title": "Steel Shell Buckling (Wind Turbine Towers)",
+      "description": "Buckling checks for thin-walled cylindrical or conical steel shells under axial compression, bending, and shear load conditions.",
+      "keywords": "steel tower buckling shell local buckling shell stability imperfection wind turbine wtg dnv",
+      "standards": [
+        {
+          "code_name": "Eurocode 3 (EN 1993-1-6 & EN 1993-4-2)",
+          "clause": "EN 1993-1-6 Section 8 (Plastic Limit) & Section 11 (Buckling)",
+          "limits": "Requires evaluating meridional, circumferential, and shear stress components against critical buckling stresses.<br>Enforces strict fabrication tolerance quality classes (Class A, B, or C) which directly scale the knocking-down factor ($$\\chi_{ov}$$).",
+          "formula": "$$\\sigma_{x,Ed} \\le \\sigma_{x,Rd} = \\chi_x f_{yk} / \\gamma_{M1}$$",
+          "notation": "**σ_x,Ed**: Design meridional stress value<br>**σ_x,Rd**: Design buckling resistance stress<br>**χ_x**: Buckling reduction factor derived from relative shell slenderness ($$\\bar{\\lambda}_x$$)<br>**γ_M1**: Partial safety factor for resistance to buckling.",
+          "notes": "Highly rigorous. Directly couples design limits to fabrication execution QA tolerances."
+        },
+        {
+          "code_name": "AISC 360-22 (American Steel Standard)",
+          "clause": "Chapter E (Section E6) & Chapter H (Section H1.1)",
+          "limits": "Limits local buckling in round HSS sections using hard boundary geometric limits for diameter-to-thickness ($$D/t$$) ratios.<br>Max limits: $$D/t \\le 0.45 E / f_y$$. Sections exceeding this limit require specialized shell analysis or scaling down capacity.",
+          "formula": "$$F_{cr} = \\frac{0.66E}{(D/t) \\sqrt{f_y/E}}$$ if exceeding standard limits.",
+          "notation": "**F_cr**: Critical local buckling stress capacity<br>**D**: Nominal outside shell diameter<br>**t**: Design wall thickness parameter<br>**E**: Modulus of elasticity of structural steel ($$29,000\\text{ ksi}$$).",
+          "notes": "Prescriptive & simple. Designed primarily for structural columns/pipes rather than massive, variable-diameter WTG towers."
+        },
+        {
+          "code_name": "DNV-RP-C202 / DNV-ST-0126 (Offshore & Wind Standards)",
+          "clause": "DNV-RP-C202 Section 3.2 / DNV-ST-0126 Section 7",
+          "limits": "Mandatory framework for wind industry OEMs. Evaluates shell stability under combined interaction loads using a shell stability capacity check factor ($$\\Psi$$). Includes complex geometric tolerances specific to large onshore/offshore wind assets.",
+          "formula": "$$\\left( \\frac{\\sigma_{xd}}{\\sigma_{cx}} \\right)^{\\alpha_1} + \\left( \\frac{\\sigma_{\\theta d}}{\\sigma_{c\\theta}} \\right)^{\\alpha_2} + \\left( \\frac{\\tau_{d}}{\\tau_{c}} \\right)^{\\alpha_3} \\le 1.0$$",
+          "notation": "**σ_xd, σ_θd, τ_d**: Design axial, hoop, and shear stresses respectively<br>**σ_cx, σ_cθ, τ_c**: Characteristic buckling strengths under individual loads<br>**α_1, α_2, α_3**: Interaction exponents specified by code geometry.",
+          "notes": "The global wind turbine industry benchmark. Crucial for dynamic fatigue and ultimate limit state tower analysis."
+        }
+      ]
+    },
+    "concrete_breakout": {
+      "title": "Anchor Bolt Concrete Breakout Strength",
+      "description": "Calculates the concrete tension breakout capacity of anchor bolt groups embedded in heavy foundation systems.",
+      "keywords": "anchor bolt concrete breakout tension foundation base plate embedment attachment anchor group",
+      "standards": [
+        {
+          "code_name": "ACI 318-19 (American Concrete Institute)",
+          "clause": "Chapter 17 (Section 17.6.2)",
+          "limits": "Uses the concrete capacity design (CCD) method. Assumes a concrete failure prism projecting outwards at an angle of 35 degrees around the anchor group perimeter.",
+          "formula": "$$N_{cbg} = \\frac{A_{Nc}}{A_{Nco}} \\psi_{ec,N} \\psi_{ed,N} \\psi_{c,N} \\psi_{cp,N} N_b$$",
+          "notation": "**N_cbg**: Nominal breakout strength of a group of anchors<br>**A_Nc**: Projected concrete failure area of the anchor group<br>**A_Nco**: Projected concrete failure area of a single isolated anchor<br>**ψ factors**: Modification factors for eccentricity, edge distances, cracking, and critical splitting crack conditions<br>**N_b**: Basic concrete breakout strength of a single anchor in cracked concrete.",
+          "notes": "Extremely rigorous and widely integrated into industry baseplate software (e.g., Hilti PROFIS)."
+        },
+        {
+          "code_name": "Eurocode 2 Part 4 (EN 1992-4)",
+          "clause": "Section 7.2.1 (Tension load concrete cone failure)",
+          "limits": "Similar to the CCD approach but variations exist in modification factor definitions for edge distance calculations and structural crack distribution assumptions.",
+          "formula": "$$N_{Rk,c} = N^0_{Rk,c} \\cdot \\frac{A_{c,N}}{A^0_{c,N}} \\cdot \\psi_{s,N} \\cdot \\psi_{re,N} \\cdot \\psi_{ec,N}$$",
+          "notation": "**N_Rk,c**: Characteristic tension breakout resistance<br>**N⁰_Rk,c**: Basic characteristic resistance of isolated anchor ($$N^0_{Rk,c} = k_1 \\sqrt{f_{ck,cube}} h_{ef}^{1.5}$$)<br>**A_c,N / A⁰_c,N**: Actual vs isolated projected failure areas<br>**ψ factors**: Geometric and structural reinforcement correction modifiers.",
+          "notes": "Standard across European energy projects. Uses cube strength parameters for base concrete modeling parameters."
+        },
+        {
+          "code_name": "IS 456:2000 / Annex G Amendments",
+          "clause": "IS 456 Annex G (Draft / General Practice Guidelines)",
+          "limits": "The standard IS 456 code lacks a comprehensive variable model for anchor group breakout capacity calculations. Most heavy Indian industrial installations defaults to ACI 318 or specific manufacturer manuals (Fischer/Hilti) to satisfy dynamic tension compliance requirements.",
+          "formula": "No Formal Equation Provided in Core Code",
+          "notation": "**No structural system equation**: Direct calculations are typically bypassed in core text; engineers must deploy international standards for heavy industrial load path transfers.",
+          "notes": "Deficient for heavy dynamic structures. International standards mandatory for engineering verification."
+        }
+      ]
+    }
+  }
+}
