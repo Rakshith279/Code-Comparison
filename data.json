@@ -10,7 +10,7 @@
           "clause": "IS 456 Table 16 / IS 3370 Part 1 Table 1",
           "limits": "Mild: 20mm | Moderate: 30mm | Severe: 45mm | Very Severe: 50mm | Extreme: 75mm.<br>Note: Liquid-retaining faces in IS 3370 require a flat minimum of 45mm cover.",
           "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
-          "notation": "**c_nom**: Nominal cover on drawings<br>**c_min**: Minimum required cover for exposure class<br>**Δc_dev**: Execution deviation tolerance (typically 0mm in design office drawings).",
+          "notation": "**c_nom**: Nominal cover on drawings<br>**c_min**: Minimum cover for exposure class (IS 456 Table 16)<br>**Δc_dev**: Execution deviation tolerance (typically 0mm in design office drawings).",
           "notes": "Standard prescriptive lookup."
         },
         {
@@ -18,7 +18,7 @@
           "clause": "IRC 112 Section 14 / Table 14.2",
           "limits": "Moderate: 40mm (In-situ) / 35mm (Precast)<br>Severe: 45mm (In-situ) / 40mm (Precast)<br>Very Severe: 50mm (In-situ) / 45mm (Precast)<br>Extreme: 75mm (In-situ) / 65mm (Precast)",
           "formula": "$$c_{nom} = c_{min,dur} + \\Delta c_{dur,\\gamma} - \\Delta c_{dur,st} - \\Delta c_{dur,add} + \\Delta c_{dev}$$",
-          "notation": "**c_nom**: Total nominal cover<br>**c_min,dur**: Minimum cover for durability<br>**Δc_dur,γ**: Safety element modifier<br>**Δc_dur,st**: Stainless steel reduction factor<br>**Δc_dur,add**: Additional coating factor<br>**Δc_dev**: Execution variance allowance (10mm for in-situ, 0-5mm for precast).",
+          "notation": "**c_nom**: Total nominal cover<br>**c_min,dur**: Minimum durability cover (Table 14.2)<br>**Δc_dur,γ, Δc_dur,st, Δc_dur,add**: Modification factors for safety element, stainless steel usage, and additional coatings respectively (Clause 14.1.3)<br>**Δc_dev**: Execution variance allowance (Clause 14.1.4).",
           "notes": "Allows adjustments based on manufacturing quality control."
         },
         {
@@ -26,7 +26,7 @@
           "clause": "Clause 4.4.1",
           "limits": "Mapped by Structural Class (S1-S6) vs Exposure (XC/XD/XS):<br>• **XC1**: 15mm (S4) / 25mm (S6)<br>• **XC2/XC3**: 20mm (S4) / 30mm (S6)<br>• **XC4**: 25mm (S4) / 35mm (S6)<br>• **XD1/XS1**: 30mm (S4) / 40mm (S6)<br>• **XD2/XS2**: 35mm (S4) / 45mm (S6)<br>• **XD3/XS3**: 40mm (S4) / 50mm (S6)",
           "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
-          "notation": "**c_nom**: Target nominal cover<br>**c_min**: Max of bond or environmental requirement ($$\\max\\{c_{min,b}; c_{min,dur}; 10\\text{mm}\\}$$)<br>**Δc_dev**: Execution variance safety allowance (standard 10mm).",
+          "notation": "**c_nom**: Target nominal drawing cover<br>**c_min**: Minimum concrete cover ($$\\max\\{c_{min,b}; c_{min,dur}; 10\\text{mm}\\}$$ per Clause 4.4.1.2)<br>**Δc_dev**: Execution variance allowance (standard 10mm per Clause 4.4.1.3).",
           "notes": "Rigorous lifecycle exposure matrix scaling."
         },
         {
@@ -42,7 +42,7 @@
           "clause": "Chapter 7.5.2",
           "limits": "Calculated dynamically based on target structural reliability index ($$\\beta = 1.5\\text{ to }3.8$$) mapped against carbonation/chloride diffusion models.",
           "formula": "$$P(t) = P [c_{nom} - x(t) < 0 ] \\le P_{target}$$",
-          "notation": "**P(t)**: Probability of corrosion initiation at time $t$<br>**c_nom**: Nominal target cover<br>**x(t)**: Penetration depth of carbonation/chlorides at time $t$<br>**P_target**: Target reliability threshold.",
+          "notation": "**P(t)**: Probability of corrosion initiation at time $t$<br>**c_nom**: Nominal target cover<br>**x(t)**: Penetration depth of carbonation/chlorides at time $t$<br>**P_{target}**: Target reliability threshold index limit.",
           "notes": "Probabilistic performance-based durability design."
         }
       ]
@@ -63,9 +63,9 @@
         {
           "code_name": "Eurocode 3 (EN 1993-1-6)",
           "clause": "Section 8 & Section 11",
-          "limits": "Evaluates meridional, hoop, and shear stresses against buckling boundaries. Scales capacity via fabrication tolerance classes (Class A, B, or C) using a knock-down factor ($$\\chi_{ov}$$).",
+          "limits": "Evaluates meridional, hoop, and shear stresses against buckling boundaries. Scales capacity via fabrication tolerance classes (Class A, B, or C) using a knock-down factor ($?\\chi_{ov}$$).",
           "formula": "$$\\sigma_{x,Ed} \\le \\sigma_{x,Rd} = \\chi_x f_{yk} / \\gamma_{M1}$$",
-          "notation": "**σ_x,Ed / σ_x,Rd**: Design meridional stress / Buckling resistance stress<br>**χ_x**: Buckling reduction factor from shell slenderness ($$\\bar{\\lambda}_x$$)<br>**f_yk**: Yield strength<br>**γ_M1**: Partial safety factor for buckling resistance.",
+          "notation": "**σ_x,Ed**: Design meridional stress value<br>**σ_x,Rd**: Design buckling resistance stress capacity limit<br>**χ_x**: Buckling reduction factor derived from relative shell slenderness (Clause 8.3)<br>**f_yk**: Yield strength of steel grade<br>**γ_M1**: Partial safety factor for resistance to buckling (Section 4).",
           "notes": "Rigorous framework linking capacity to fabrication quality tolerances."
         },
         {
@@ -73,7 +73,7 @@
           "clause": "Chapter E (Sec E6) & Chapter H (Sec H1.1)",
           "limits": "Limits local buckling in round HSS sections via hard geometric boundaries ($$D/t \\le 0.45 E / f_y$$). Slender sections exceeding this limit must use reduced critical stress equations.",
           "formula": "$$F_{cr} = \\frac{0.66E}{(D/t) \\sqrt{f_y/E}}$$",
-          "notation": "**F_cr**: Critical local buckling stress<br>**D / t**: Outside diameter / Wall thickness<br>**E / f_y**: Modulus of elasticity ($$29,000\\text{ ksi}$$) / Yield stress.",
+          "notation": "**F_cr**: Critical local buckling stress value<br>**D / t**: Outside diameter / Wall thickness parameter<br>**E / f_y**: Modulus of elasticity ($$29,000\\text{ ksi}$$) / Yield stress.",
           "notes": "Simple prescriptive lookup for hollow structural sections."
         },
         {
@@ -81,7 +81,7 @@
           "clause": "Section 3.2",
           "limits": "Evaluates shell stability under combined loading interactions via a utilization capacity limit index. Incorporates specialized knock-down curves accounting for large structural shell imperfections.",
           "formula": "$$\\left( \\frac{\\sigma_{xd}}{\\sigma_{cx}} \\right)^{\\alpha_1} + \\left( \\frac{\\sigma_{\\theta d}}{\\sigma_{c\\theta}} \\right)^{\\alpha_2} + \\left( \\frac{\\tau_{d}}{\\tau_{c}} \\right)^{\\alpha_3} \\le 1.0$$",
-          "notation": "**σ_xd, σ_θd, τ_d**: Design axial, hoop, and shear stresses<br>**σ_cx, σ_cθ, τ_c**: Buckling strengths under isolated loads<br>**α_1, α_2, α_3**: Code-specified structural interaction exponents.",
+          "notation": "**σ_xd, σ_θd, τ_d**: Design axial, hoop, and shear stresses respectively<br>**σ_cx, σ_cθ, τ_c**: Buckling strengths under isolated loads (Sec 3.2.2)<br>**α_1, α_2, α_3**: Structural interaction exponents (Sec 3.2.1 display variables).",
           "notes": "Industry benchmark standard for heavy thin-walled shell components."
         },
         {
@@ -89,7 +89,7 @@
           "clause": "Chapter 7.11",
           "limits": "Enforces non-linear numerical safety checks (GNIA - Geometrically Nonlinear Analysis with Imperfections). Maps geometric shell manufacturing deviations directly into finite element models.",
           "formula": "$$\\gamma_{Rk} \\cdot E_d \\le R_d(u, a_{init})$$",
-          "notation": "**γ_Rk / E_d**: Global safety factor / Design loading effect matrix<br>**R_d**: Non-linear resistance structural function<br>**u / a_init**: Displacements field / Manufacturing imperfection amplitude.",
+          "notation": "**γ_Rk / E_d**: Global structural safety factor / Design loading action matrix<br>**R_d**: Non-linear structural resistance function calculation<br>**u / a_init**: Displacements field matrix / Initial geometric imperfection amplitude.",
           "notes": "Advanced computational simulation framework."
         }
       ]
@@ -104,31 +104,31 @@
           "clause": "Annex G / General Anchorage Clauses",
           "limits": "Core IS 456 lacks an analytical Concrete Capacity Design (CCD) group model for 35-degree breakout cones. Designs default to verifying simple isolated tensile pullout strength based on concrete tensile capacity across the failure surface area.",
           "formula": "$$N_{nb} = f_{ct} \\cdot A_{proj}$$",
-          "notation": "**N_nb**: Nominal concrete breakout tension capacity of the anchor<br>**f_ct**: Characteristic tensile strength of concrete ($$0.7 \\sqrt{f_{ck}}$$)<br>**A_proj**: Projected effective surface area of the failure cone.",
+          "notation": "**N_nb**: Nominal concrete breakout tension capacity<br>**f_ct**: Concrete tensile strength calculated as $$0.7 \\sqrt{f_{ck}}$$ (Clause 6.2.2)<br>**A_proj**: Projected surface area of the isolated failure cone boundary.",
           "notes": "Lacks an explicit group spacing/eccentricity interactive model; international standards typically govern complex configurations."
         },
         {
           "code_name": "ACI 318-19 (American Concrete Institute)",
           "clause": "Chapter 17 (Section 17.6.2)",
           "limits": "Uses Concrete Capacity Design (CCD) method. Calculates group breakout capacity in tension assuming a failure prism projecting at 35 degrees.",
-          "formula": "$$N_{cbg} = \\frac{A_{Nc}}{A_{Nco}} \\psi_{factors} N_b$$",
-          "notation": "**N_cbg**: Nominal breakout strength of an anchor group in tension<br>**A_Nc / A_Nco**: Actual vs reference single-anchor projected concrete failure area<br>**ψ_factors**: Group modification factors for eccentricity, edge limits, cracking, and splitting splitting conditions<br>**N_b**: Basic single anchor breakout capacity ($$k_c \\lambda_a \\sqrt{f'_c} h_{ef}^{1.5}$$)<br>**k_c / f'_c / h_ef**: Calibration factor (17 for cast-in) / Compressive strength (psi) / Effective embedment depth.",
+          "formula": "$$N_{cbg} = \\frac{A_{Nc}}{A_{Nco}} \\psi_{ec,N} \\psi_{ed,N} \\psi_{c,N} \\psi_{cp,N} N_b$$",
+          "notation": "**N_cbg**: Nominal breakout strength of an anchor group in tension<br>**A_Nc / A_Nco**: Actual vs reference single-anchor projected concrete failure areas (Sec 17.6.2.1)<br>**ψ_ec,N, ψ_ed,N, ψ_c,N, ψ_cp,N**: Anchor group modification factors for loading eccentricity, edge distances, concrete cracking, and critical splitting boundaries respectively (Sec 17.6.2.3 to 17.6.2.6)<br>**N_b**: Basic single anchor breakout capacity calculated as $$k_c \\lambda_a \\sqrt{f'_c} h_{ef}^{1.5}$$ (Sec 17.6.2.2)<br>**k_c / f'_c / h_ef**: Concrete effectiveness calibration factor / Compressive strength / Effective anchor embedment depth.",
           "notes": "Standardized group interaction methodology widely integrated in calculation engines."
         },
         {
           "code_name": "Eurocode 2 Part 4 (EN 1992-4)",
-          "clause": "Section 7.2.1",
+          "clause": "Section 7.2.1.4",
           "limits": "Applies a standardized CCD group model evaluating actual failure geometry lines under combined tension actions.",
-          "formula": "$$N_{Rk,c} = N^0_{Rk,c} \\cdot \\frac{A_{c,N}}{A^0_{c,N}} \\cdot \\psi_{factors}$$",
-          "notation": "**N_Rk,c**: Characteristic tension breakout group capacity resistance<br>**N⁰_Rk,c**: Basic single anchor resistance ($$k_1 \\sqrt{f_{ck,cube}} h_{ef}^{1.5}$$)<br>**A_c,N / A⁰_c,N**: Actual vs isolated single projected concrete failure areas<br>**ψ_factors**: Correction modifiers for edge distance, reinforcement density, and load eccentricity<br>**k_1 / f_{ck,cube} / h_ef**: Calibration factor (12.7) / Concrete cube strength / Effective embedment depth.",
+          "formula": "$$N_{Rk,c} = N^0_{Rk,c} \\cdot \\frac{A_{c,N}}{A^0_{c,N}} \\cdot \\psi_{s,N} \\cdot \\psi_{re,N} \\cdot \\psi_{ec,N} \\cdot \\psi_{p,N}$$",
+          "notation": "**N_Rk,c**: Characteristic tension breakout group capacity resistance<br>**N⁰_Rk,c**: Basic single anchor resistance calculated as $$k_1 \\sqrt{f_{ck,cube}} h_{ef}^{1.5}$$ (Clause 7.2.1.4-Eq 7.1)<br>**A_c,N / A⁰_c,N**: Actual vs reference single anchor failure areas<br>**ψ_s,N, ψ_re,N, ψ_ec,N, ψ_p,N**: Geometric modification factor constants for edge proximity, structural reinforcement tracking, load eccentricity, and localized shell spalling splitting boundaries respectively (Clauses 7.2.1.4.2 to 7.2.1.4.5)<br>**k_1 / f_{ck,cube} / h_ef**: Calibration factor / Concrete cube strength / Effective embedment depth parameter.",
           "notes": "Standard unified calculation format across European jurisdictions."
         },
         {
           "code_name": "fib Model Code 2010 / Bulletin 58",
-          "clause": "Model Code Chapter 7.13",
+          "clause": "Model Code Chapter 7.13 / Bulletin 58 Section 4.1",
           "limits": "Evaluates base static breakout capacity ($N_{Rk,c}$) via standard CCD, then scales for fatigue conditions under high-cycle cyclic structural tension repetitions.",
-          "formula": "$$N_{Rk,c} = k_1 \\sqrt{f_{ck}} \\cdot h_{ef}^{1.5} \\cdot \\frac{A_{c,N}}{A^0_{c,N}} \\cdot \\psi_{factors}$$",
-          "notation": "**N_Rk,c**: Characteristic static concrete breakout resistance capacity<br>**k_1**: Calibration coefficient factor (12.7 for cast-in)<br>**f_ck / h_ef**: Concrete characteristic cylinder strength / Effective bolt embedment depth<br>**A_c,N / A⁰_c,N**: Total actual group failure area vs reference single anchor failure area<br>**ψ_factors**: Group modification factors for edge proximity, structural cracking, and eccentricities.",
+          "formula": "$$N_{Rk,c} = k_1 \\sqrt{f_{ck}} \\cdot h_{ef}^{1.5} \\cdot \\frac{A_{c,N}}{A^0_{c,N}} \\cdot \\psi_{s,N} \\cdot \\psi_{re,N} \\cdot \\psi_{ec,N}$$",
+          "notation": "**N_Rk,c**: Characteristic static concrete breakout resistance capacity<br>**A_c,N / A⁰_c,N**: Total actual group failure area vs reference single anchor area<br>**ψ_s,N, ψ_re,N, ψ_ec,N**: Group modification factor profiles for edge distance proximity, structural cracking containment, and load eccentricities respectively (Section 4.1.2)<br>**k_1 / f_{ck} / h_ef**: Calibration coefficient / Concrete characteristic cylinder strength / Effective bolt embedment depth profile.",
           "notes": "Comprehensive model accounting for baseline static mechanics and long-term cyclic adjustments."
         }
       ]
