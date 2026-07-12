@@ -2,14 +2,14 @@ import streamlit as st
 import json
 import os
 
-# 1. Page Configuration for an expansive wide layout
+# 1. Page Layout Optimization
 st.set_page_config(
     page_title="Multi-Code Clause Cross-Reference Tool",
     page_icon="🏗️",
     layout="wide"
 )
 
-# 2. Hard-load Data without caching to allow instant updates
+# 2. Raw JSON Loading Function (No Caching to prevent old data retention)
 def load_code_data():
     if os.path.exists("data.json"):
         with open("data.json", "r") as f:
@@ -24,42 +24,41 @@ st.caption("Production-ready side-by-side technical standard matrix mapping glob
 st.markdown("---")
 
 if not categories:
-    st.error("No engineering data found. Please ensure data.json is populated correctly.")
+    st.error("No engineering categories found inside data.json. Ensure the data file exists in this directory.")
 else:
-    # 3. Top Search Engine
+    # 3. Top Global Search Engine Field
     search_query = st.text_input("🔍 Search Design Topics (e.g., 'cover', 'buckling', 'anchor', 'IS 456'):").strip().lower()
     
-    # Filter topics based on search keywords or text parameters
+    # Evaluate category blocks against keywords
     filtered_categories = {}
     for key, value in categories.items():
-        search_blob = f"{value['title']} {value['description']} {value['keywords']}".lower()
+        search_blob = f"{value.get('title', '')} {value.get('description', '')} {value.get('keywords', '')}".lower()
         if not search_query or search_query in search_blob:
             filtered_categories[key] = value
 
     if not filtered_categories:
-        st.warning("No structural topics found matching your search query.")
+        st.warning("No structural criteria matched your current search parameters.")
     else:
-        # 4. Sidebar Navigation Panel using filtered dictionary elements
+        # 4. Isolated Left-Sidebar Navigation Menu
         st.sidebar.header("Design Categories")
         
-        # Build map displaying clean titles instead of raw JSON keys
+        # Build clean title map for display lists
         display_map = {value['title']: key for key, value in filtered_categories.items()}
         selected_title = st.sidebar.radio("Select Target Structural Check:", list(display_map.keys()))
         
-        # Retrieve the final chosen topic dataset
+        # Pull final targeted database entry
         target_key = display_map[selected_title]
         item = categories[target_key]
         
-        # 5. Main Clean Interface Output
+        # 5. Core Matrix Rendering Loop
         st.subheader(item["title"])
         st.info(item["description"])
         st.markdown("<br>", unsafe_allow_html=True)
         
-        # Grid loop displaying all cataloged design standards for that category
-        for std in item["standards"]:
+        for std in item.get("standards", []):
             st.markdown(f"#### 📘 {std['code_name']}")
             
-            # 3-Column Split to isolate content and lock horizontal lines
+            # Locked 3-Column horizontal baseline alignment matrix
             col_meta, col_limits, col_equations = st.columns([1.2, 2.3, 2.5])
             
             with col_meta:
@@ -82,5 +81,5 @@ else:
                 st.markdown("**Parameter Breakdown & Notations:**")
                 st.markdown(std['notation'], unsafe_allow_html=True)
                 
-            # Consistent Row Line Separator
+            # Distinct standard separation boundary line
             st.markdown("<hr style='margin-top:1em;margin-bottom:2em;border-color:#4A5568;'>", unsafe_allow_html=True)
