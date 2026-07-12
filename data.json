@@ -10,7 +10,7 @@
           "clause": "IS 456 Table 16 / IS 3370 Part 1 Table 1",
           "limits": "Mild: 20mm | Moderate: 30mm | Severe: 45mm | Very Severe: 50mm | Extreme: 75mm.<br>Note: Liquid-retaining faces in IS 3370 require a flat minimum of 45mm cover.",
           "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
-          "notation": "**c_nom**: Nominal cover specified on drawings<br>**c_min**: Minimum required cover for environmental exposure<br>**Δc_dev**: Allowance for execution deviation tolerance (typically assumed as 0mm on design office drawings).",
+          "notation": "**c_nom**: Nominal concrete cover specified directly on design drawings<br>**c_min**: Minimum required clear cover dimension for environmental exposure protection<br>**Δc_dev**: Allowance for execution deviation tolerance (typically assumed as 0mm on design office drawings).",
           "notes": "Standard prescriptive lookup."
         },
         {
@@ -18,7 +18,7 @@
           "clause": "IRC 112 Section 14 / Table 14.2",
           "limits": "Moderate: 40mm (Cast-in-situ), 35mm (Factory Precast)<br>Severe: 45mm (Cast-in-situ), 40mm (Factory Precast)<br>Very Severe: 50mm (Cast-in-situ), 45mm (Factory Precast)<br>Extreme: 75mm (Cast-in-situ), 65mm (Factory Precast)",
           "formula": "$$c_{nom} = c_{min,dur} + \\Delta c_{dur,\\gamma} - \\Delta c_{dur,st} - \\Delta c_{dur,add} + \\Delta c_{dev}$$",
-          "notation": "**c_nom**: Total nominal clear cover<br>**c_min,dur**: Absolute minimum cover for durability based on environmental class<br>**Δc_dur,γ**: Safety element correction modifier<br>**Δc_dur,st**: Stainless steel reduction factor<br>**Δc_dur,add**: Additional coating protection factor<br>**Δc_dev**: Execution variance allowance (10mm mandatory for cast-in-situ; can be reduced to 5mm or 0mm for precision precast machinery).",
+          "notation": "**c_nom**: Total nominal clear concrete cover<br>**c_min,dur**: Absolute minimum concrete cover for durability based on environmental exposure class<br>**Δc_dur,γ**: Safety element correction modifier factor<br>**Δc_dur,st**: Stainless steel reinforcement reduction factor<br>**Δc_dur,add**: Additional surface coating protection factor<br>**Δc_dev**: Execution variance allowance (10mm mandatory for cast-in-situ; can be reduced to 5mm or 0mm for precision precast machinery).",
           "notes": "Rewarding. Allows reductions for tight factory precast QA."
         },
         {
@@ -26,7 +26,7 @@
           "clause": "Clause 4.4.1",
           "limits": "Mapped by Structural Class (S1 to S6) & Exposure Class:<br>• **XC1**: 15mm (S4) / 25mm (S6)<br>• **XC2/XC3**: 20mm (S4) / 30mm (S6)<br>• **XC4**: 25mm (S4) / 35mm (S6)<br>• **XD1/XS1**: 30mm (S4) / 40mm (S6)<br>• **XD2/XS2**: 35mm (S4) / 45mm (S6)<br>• **XD3/XS3**: 40mm (S4) / 50mm (S6)",
           "formula": "$$c_{nom} = c_{min} + \\Delta c_{dev}$$",
-          "notation": "**c_nom**: Target nominal drawing cover<br>**c_min**: Absolute minimum cover considering bond and environment ($$c_{min} = \\max\\{c_{min,b}; c_{min,dur}; 10\\text{mm}\\}$$)<br>**Δc_dev**: Standard safety allowance for execution variance (fixed at 10mm unless specialized reduction QA applies).",
+          "notation": "**c_nom**: Target nominal drawing cover<br>**c_min**: Absolute minimum cover considering bond and environment ($$c_{min} = \\max\\{c_{min,b}; c_{min,dur}; 10\\text{mm}\\}$$)<br>**c_min,b**: Minimum cover due to steel bar bond requirements<br>**c_min,dur**: Minimum cover due to environmental exposure conditions<br>**Δc_dev**: Standard safety allowance for execution variance (fixed at 10mm unless specialized reduction QA applies).",
           "notes": "Rigorous life-cycle scaling. Highly dependent on asset design life."
         },
         {
@@ -42,7 +42,7 @@
           "clause": "Chapter 7.5.2 (Performance-Based Durability)",
           "limits": "Calculated dynamically based on target structural reliability index ($$\\beta = 1.5\\text{ to }3.8$$) mapped against carbonation/concrete chloride diffusion models over the specified service life timeline.",
           "formula": "$$P(t) = P [c_{nom} - x(t) < 0 ] \\le P_{target}$$",
-          "notation": "**P(t)**: Probability of corrosion initiation over asset life timeline $t$<br>**c_nom**: Nominal target design cover<br>**x(t)**: Penetration depth of carbonation/chlorides at time $t$<br>**P_target**: Target safety threshold coefficient.",
+          "notation": "**P(t)**: Probability of corrosion initiation over asset life timeline $t$<br>**c_nom**: Nominal target design cover<br>**x(t)**: Penetration depth of carbonation or chlorides at elapsed operational time $t$<br>**P_target**: Target limit state safety threshold coefficient.",
           "notes": "Highly scientific. Probabilistic math modeling based on diffusion."
         }
       ]
@@ -50,14 +50,22 @@
     "shell_buckling": {
       "title": "Steel Shell Buckling (Wind Turbine Towers)",
       "description": "Buckling checks for thin-walled cylindrical or conical steel shells under axial compression, bending, and shear load conditions.",
-      "keywords": "steel tower buckling shell local buckling shell stability imperfection wind turbine wtg dnv",
+      "keywords": "steel tower buckling shell local buckling shell stability imperfection wind turbine wtg dnv is 800 eurocode",
       "standards": [
+        {
+          "code_name": "IS 800:2007 (Indian Steel Standard)",
+          "clause": "Section 8.2.2 & Section 8.4.2.2 (Cylindrical Members)",
+          "limits": "Evaluates local buckling of tubular structural members under axial compression and bending. Classifies sections into Plastic, Compact, or Semi-compact based on outer diameter-to-thickness ($$d/t$$) ratios. Limits limits for local buckling: Semi-compact limit is $$d/t \\le 88\\epsilon^2$$. Beyond this, the section must be treated as slender and analyzed using elastic shell theory.",
+          "formula": "$$\\sigma_{cr} = \\frac{E}{\\sqrt{3(1-\\mu^2)}} \\cdot \\frac{2t}{d}$$",
+          "notation": "**σ_cr**: Ideal elastic local buckling stress capacity value<br>**d**: Outer diameter of the circular tubular shell section<br>**t**: Design wall thickness of the thin steel shell plate<br>**E**: Modulus of elasticity of structural steel ($$2 \\times 10^5\\text{ MPa}$$)<br>**μ**: Poisson's ratio constant value (0.3 for structural steel).",
+          "notes": "Lenient prescriptive boundaries. Limited built-in scope for highly irregular variable-diameter thin-walled shell geometries like modern WTG towers."
+        },
         {
           "code_name": "Eurocode 3 (EN 1993-1-6 & EN 1993-4-2)",
           "clause": "EN 1993-1-6 Section 8 (Plastic Limit) & Section 11 (Buckling)",
           "limits": "Requires evaluating meridional, circumferential, and shear stress components against critical buckling stresses.<br>Enforces strict fabrication tolerance quality classes (Class A, B, or C) which directly scale the knocking-down factor ($$\\chi_{ov}$$).",
           "formula": "$$\\sigma_{x,Ed} \\le \\sigma_{x,Rd} = \\chi_x f_{yk} / \\gamma_{M1}$$",
-          "notation": "**σ_x,Ed**: Design meridional stress value<br>**σ_x,Rd**: Design buckling resistance stress<br>**χ_x**: Buckling reduction factor derived from relative shell slenderness ($$\\bar{\\lambda}_x$$)<br>**γ_M1**: Partial safety factor for resistance to buckling.",
+          "notation": "**σ_x,Ed**: Design meridional stress value acting on the shell section<br>**σ_x,Rd**: Design buckling resistance stress capacity limit<br>**χ_x**: Buckling reduction factor derived from relative shell slenderness ($$\\bar{\\lambda}_x$$)<br>**f_yk**: Characteristic yield strength of specified structural steel grade<br>**γ_M1**: Partial safety factor for resistance of shell sections to buckling.",
           "notes": "Highly rigorous. Directly couples design limits to fabrication execution QA tolerances."
         },
         {
@@ -65,7 +73,7 @@
           "clause": "Chapter E (Section E6) & Chapter H (Section H1.1)",
           "limits": "Limits local buckling in round HSS sections using hard boundary geometric limits for diameter-to-thickness ($$D/t$$) ratios.<br>Max limits: $$D/t \\le 0.45 E / f_y$$. Sections exceeding this limit require specialized shell analysis or scaling down capacity.",
           "formula": "$$F_{cr} = \\frac{0.66E}{(D/t) \\sqrt{f_y/E}}$$ if exceeding standard limits.",
-          "notation": "**F_cr**: Critical local buckling stress capacity<br>**D**: Nominal outside shell diameter<br>**t**: Design wall thickness parameter<br>**E**: Modulus of elasticity of structural steel ($$29,000\\text{ ksi}$$).",
+          "notation": "**F_cr**: Critical local buckling stress capacity target value<br>**D**: Nominal outside shell circular diameter<br>**t**: Design plate wall thickness parameter<br>**E**: Modulus of elasticity of structural steel ($$29,000\\text{ ksi}$$)<br>**f_y**: Specified minimum yield stress of structural steel.",
           "notes": "Prescriptive & simple. Designed primarily for structural columns/pipes rather than massive, variable-diameter WTG towers."
         },
         {
@@ -73,8 +81,16 @@
           "clause": "DNV-RP-C202 Section 3.2 / DNV-ST-0126 Section 7",
           "limits": "Mandatory framework for wind industry OEMs. Evaluates shell stability under combined interaction loads using a shell stability capacity check factor ($$\\Psi$$). Includes complex geometric tolerances specific to large onshore/offshore wind assets.",
           "formula": "$$\\left( \\frac{\\sigma_{xd}}{\\sigma_{cx}} \\right)^{\\alpha_1} + \\left( \\frac{\\sigma_{\\theta d}}{\\sigma_{c\\theta}} \\right)^{\\alpha_2} + \\left( \\frac{\\tau_{d}}{\\tau_{c}} \\right)^{\\alpha_3} \\le 1.0$$",
-          "notation": "**σ_xd, σ_θd, τ_d**: Design axial, hoop, and shear stresses respectively<br>**σ_cx, σ_cθ, τ_c**: Characteristic buckling strengths under individual loads<br>**α_1, α_2, α_3**: Interaction exponents specified by code geometry.",
+          "notation": "**σ_xd**: Design axial stress component including bending actions<br>**σ_θd**: Design hoop/circumferential compression stress component<br>**τ_d**: Design in-plane shear stress component<br>**σ_cx**: Characteristic buckling strength under isolated axial loads<br>**σ_cθ**: Characteristic buckling strength under isolated hoop stress loads<br>**τ_c**: Characteristic buckling strength under isolated shear stress loads<br>**α_1, α_2, α_3**: Numerical structural interaction exponent coefficients specified by code geometry.",
           "notes": "The global wind turbine industry benchmark. Crucial for dynamic fatigue and ultimate limit state tower analysis."
+        },
+        {
+          "code_name": "fib Model Code 2010 (International Consensus)",
+          "clause": "Chapter 7.11 (Safety and Limit State Mechanics for Shells)",
+          "limits": "Outlines non-linear numerical safety verification formats (GNIA - Geometrically Nonlinear Analysis with Imperfections). Requires mapping geometric manufacturing deviations directly into finite element models rather than using simple reduction tables.",
+          "formula": "$?\\gamma_{Rk} \\cdot E_d \\le R_d(u, a_{init})$$",
+          "notation": "**γ_Rk**: Global structural resistance partial safety factor<br>**E_d**: Design loading effects matrix array parameter<br>**R_d**: Non-linear structural resistance mathematical function<br>**u**: Resultant displacements structural field matrix<br>**a_init**: Measured or assumed initial geometric imperfection amplitudes.",
+          "notes": "Rigorous finite-element analysis framework. Moves completely away from manual spreadsheet lookup methods into advanced non-linear computational mechanics."
         }
       ]
     },
@@ -84,11 +100,19 @@
       "keywords": "anchor bolt concrete breakout tension foundation base plate embedment attachment anchor group",
       "standards": [
         {
+          "code_name": "IS 456:2000 / Annex G & Code Amendments",
+          "clause": "IS 456 Clauses 20.6 & General Development Length Principles",
+          "limits": "Traditional IS 456 relies on bond-stress equations and basic development lengths for straight or hooked bars. It contains no explicit formula to compute structural anchor group cone breakout interactions under high dynamic overturning moments.",
+          "formula": "$$\\tau_{bd} = \\frac{\\phi \\cdot \\sigma_s}{4 \\cdot L_d}$$",
+          "notation": "**τ_bd**: Design bond stress strength capacity of concrete matrix<br>**φ**: Nominal diameter of the steel anchor bolt or reinforcement bar<br>**σ_s**: Tensile stress developed in the bar under factored design loads<br>**L_d**: Minimum development length required for structural anchorage mechanical transfer.",
+          "notes": "Deficient for heavy dynamic structures. Indian design offices managing power plants or wind foundations must bypass this and default to ACI/Eurocode for anchorage verification."
+        },
+        {
           "code_name": "ACI 318-19 (American Concrete Institute)",
-          "clause": "Chapter 17 (Section 17.6.2)",
+          "clause": "Chapter 17 (Section 17.6.2 - Concrete Breakout Strength of Anchors in Tension)",
           "limits": "Uses the concrete capacity design (CCD) method. Assumes a concrete failure prism projecting outwards at an angle of 35 degrees around the anchor group perimeter.",
           "formula": "$$N_{cbg} = \\frac{A_{Nc}}{A_{Nco}} \\psi_{ec,N} \\psi_{ed,N} \\psi_{c,N} \\psi_{cp,N} N_b$$",
-          "notation": "**N_cbg**: Nominal breakout strength of a group of anchors<br>**A_Nc**: Projected concrete failure area of the anchor group<br>**A_Nco**: Projected concrete failure area of a single isolated anchor<br>**ψ factors**: Modification factors for eccentricity, edge distances, cracking, and critical splitting crack conditions<br>**N_b**: Basic concrete breakout strength of a single anchor in cracked concrete.",
+          "notation": "**N_cbg**: Nominal breakout strength of a group of steel anchors in tension<br>**A_Nc**: Actual projected concrete failure area of the anchor group at the top concrete surface<br>**A_Nco**: Reference projected concrete failure area of a single isolated anchor assuming unbounded edge distances<br>**ψ_ec,N**: Modification factor for anchor group tensile load eccentricity eccentricity eccentricity<br>**ψ_ed,N**: Modification factor for edge distance geometry constraints<br>**ψ_c,N**: Modification factor for cracked concrete conditions (presence or absence of hairline structural cracks)<br>**ψ_cp,N**: Modification factor for post-installed anchors designed in uncracked concrete without supplementary reinforcement<br>**N_b**: Basic concrete breakout strength of a single anchor in cracked concrete ($$N_b = k_c \\lambda_a \\sqrt{f'_c} h_{ef}^{1.5}$$)<br>**k_c**: Calibration coefficient factor for breakout strength (17 for cast-in anchors)<br>**λ_a**: Lightweight concrete modification factor constant<br>**f'_c**: Specified compressive strength of concrete material (psi)<br>**h_ef**: Effective embedment depth parameter of the anchor bolt.",
           "notes": "Extremely rigorous and widely integrated into industry baseplate software (e.g., Hilti PROFIS)."
         },
         {
@@ -96,16 +120,16 @@
           "clause": "Section 7.2.1 (Tension load concrete cone failure)",
           "limits": "Similar to the CCD approach but variations exist in modification factor definitions for edge distance calculations and structural crack distribution assumptions.",
           "formula": "$$N_{Rk,c} = N^0_{Rk,c} \\cdot \\frac{A_{c,N}}{A^0_{c,N}} \\cdot \\psi_{s,N} \\cdot \\psi_{re,N} \\cdot \\psi_{ec,N}$$",
-          "notation": "**N_Rk,c**: Characteristic tension breakout resistance<br>**N⁰_Rk,c**: Basic characteristic resistance of isolated anchor ($$N^0_{Rk,c} = k_1 \\sqrt{f_{ck,cube}} h_{ef}^{1.5}$$)<br>**A_c,N / A⁰_c,N**: Actual vs isolated projected failure areas<br>**ψ factors**: Geometric and structural reinforcement correction modifiers.",
+          "notation": "**N_Rk,c**: Characteristic tension breakout resistance value<br>**N⁰_Rk,c**: Basic characteristic resistance of a single isolated anchor ($$N^0_{Rk,c} = k_1 \\sqrt{f_{ck,cube}} h_{ef}^{1.5}$$)<br>**k_1**: Calibration factor coefficient (12.7 for cast-in structural anchors)<br>**f_ck,cube**: Characteristic concrete compressive cube strength at 28 days<br>**h_ef**: Effective embedment depth profile height of the anchor bolt steel line<br>**A_c,N**: Actual projected concrete cone failure area of the anchorage group<br>**A⁰_c,N**: Reference projected failure area of an isolated anchor bolt<br>**ψ_s,N**: Modification factor scaling disturbance of concrete stress distribution due to close proximity to edges<br>**ψ_re,N**: Modification factor accounting for the shell skin/shell core concrete reinforcement condition<br>**ψ_ec,N**: Modification factor for group tensile load eccentricity setups.",
           "notes": "Standard across European energy projects. Uses cube strength parameters for base concrete modeling parameters."
         },
         {
-          "code_name": "IS 456:2000 / Annex G Amendments",
-          "clause": "IS 456 Annex G (Draft / General Practice Guidelines)",
-          "limits": "The standard IS 456 code lacks a comprehensive variable model for anchor group breakout capacity calculations. Most heavy Indian industrial installations defaults to ACI 318 or specific manufacturer manuals (Fischer/Hilti) to satisfy dynamic tension compliance requirements.",
-          "formula": "No Formula Provided",
-          "notation": "**No structural system equation**: Direct calculations are typically bypassed in core text; engineers must deploy international standards for heavy industrial load path transfers.",
-          "notes": "Deficient for heavy dynamic structures. International standards mandatory for engineering verification."
+          "code_name": "fib Model Code 2010 / Bulletin 58 (International Consensus)",
+          "clause": "Model Code Chapter 7.13 / Bulletin 58 (Design of Anchorages)",
+          "limits": "Expands basic concrete capacity design formulas to incorporate severe fatigue accumulation, dynamic cyclic reversing shears, and seismic pullout conditions. Governed by a damage accumulation reduction framework ($$\\Delta_{fail}$$).",
+          "formula": "$$N_{Rk,c,fat} = \\alpha_{fat} \\cdot \\psi_{w,fat} \\cdot N_{Rk,c}$$",
+          "notation": "**N_Rk,c,fat**: Design fatigue life concrete breakout capacity resistance limit under cyclic loading<br>**α_fat**: Fatigue reduction scaling coefficient derived from target load cycles ($$N \\ge 10^6$$) and load amplitude variance ratio<br>**ψ_w,fat**: Modification factor reflecting crack propagation profiles and concrete micro-cracking degradation under variable cyclic amplitudes<br>**N_Rk,c**: Static characteristic concrete breakout strength limit computed under quasi-static loading setups.",
+          "notes": "Absolute gold standard for wind turbine base foundation design. Mandatory when evaluating long-term fatigue lifecycle states of high-strength post-tensioned anchor cages."
         }
       ]
     }
