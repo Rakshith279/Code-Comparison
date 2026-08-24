@@ -63,7 +63,7 @@
         {
           "code_name": "Eurocode 3 (EN 1993-1-6)",
           "clause": "Section 8 & Section 11",
-          "limits": "Evaluates meridional, hoop, and shear stresses against buckling boundaries. Scales capacity via fabrication tolerance classes (Class A, B, or C) using a knock-down factor ($?\\chi_{ov}$$).",
+          "limits": "Evaluates meridional, hoop, and shear stresses against buckling boundaries. Scales capacity via fabrication tolerance classes (Class A, B, or C) using a knock-down factor ($$\\chi_{ov}$$).",
           "formula": "$$\\sigma_{x,Ed} \\le \\sigma_{x,Rd} = \\chi_x f_{yk} / \\gamma_{M1}$$",
           "notation": "**σ_x,Ed**: Design meridional stress value<br>**σ_x,Rd**: Design buckling resistance stress capacity limit<br>**χ_x**: Buckling reduction factor derived from relative shell slenderness (Clause 8.3)<br>**f_yk**: Yield strength of steel grade<br>**γ_M1**: Partial safety factor for resistance to buckling (Section 4).",
           "notes": "Rigorous framework linking capacity to fabrication quality tolerances."
@@ -130,8 +130,10 @@
           "formula": "$$N_{Rk,c} = k_1 \\sqrt{f_{ck}} \\cdot h_{ef}^{1.5} \\cdot \\frac{A_{c,N}}{A^0_{c,N}} \\cdot \\psi_{s,N} \\cdot \\psi_{re,N} \\cdot \\psi_{ec,N}$$",
           "notation": "**N_Rk,c**: Characteristic static concrete breakout resistance capacity<br>**A_c,N / A⁰_c,N**: Total actual group failure area vs reference single anchor area<br>**ψ_s,N, ψ_re,N, ψ_ec,N**: Group modification factor profiles for edge distance proximity, structural cracking containment, and load eccentricities respectively (Section 4.1.2)<br>**k_1 / f_{ck} / h_ef**: Calibration coefficient / Concrete characteristic cylinder strength / Effective bolt embedment depth profile.",
           "notes": "Comprehensive model accounting for baseline static mechanics and long-term cyclic adjustments."
-        },
-        "minimum_reinforcement": {
+        }
+      ]
+    },
+    "minimum_reinforcement": {
       "title": "Minimum Reinforcement (Tension, Compression, Shear)",
       "description": "Prescriptive minimum steel area thresholds for structural concrete elements to prevent brittle failure, control cracking, and ensure minimum ductility under unpredicted loads.",
       "keywords": "minimum reinforcement area tension compression shear torsion steel ductility crack control",
@@ -167,46 +169,47 @@
           "formula": "$$A_{s,min} = k_c \\cdot k \\cdot f_{ct,eff} \\cdot \\frac{A_{ct}}{\\sigma_s}$$",
           "notation": "**A_s,min**: Minimum reinforcing steel area specifically for crack control limitations<br>**k_c / k**: Coefficient for stress distribution in the cross section / Coefficient for non-uniform self-equilibrating stresses<br>**f_ct,eff**: Effective tensile strength of concrete at the expected time of crack formation<br>**A_ct**: Area of concrete acting within the effective tension zone<br>**σ_s**: Maximum permitted steel stress immediately after crack formation.",
           "notes": "Performance-based minimums focused on the exact physics of crack propagation mechanics rather than empirical geometric ratios."
-        },
-        
+        }
+      ]
+    },
     "concrete_properties": {
-        "title": "Concrete Characteristic Strength & Material Definitions",
-        "description": "Standardized material strength parameters, characteristic test specimen definitions (Cube vs. Cylinder), and calculated design values across major codes.",
-        "keywords": "fck fck_cube fck_cyl fctm fcd fctd strength grade characteristic cylinder cube concrete properties compressive tensile design strength",
-        "standards": [
-            {
-                "code_name": "IS 456:2000 (Indian Building Standard)",
-                "clause": "Clauses 3.6, 6.2.1, 6.2.2 & 38.1",
-                "limits": "• **Specimen Standard**: 150mm Cube tested at 28 days.<br>• **Standard Grades**: M20, M25, M30, M35, M40, M45, M50.<br>• **Design Compressive Strength ($$f_{cd}$$)**: $$0.447 f_{ck}$$ (Includes $$0.67$$ size-effect factor and $$\\gamma_m = 1.5$$).<br>• **Flexural Tensile Strength ($$f_{cr}$$)**: $$0.7 \\sqrt{f_{ck}}$$ N/mm².<br>• **Modulus of Elasticity ($$E_c$$)**: $$5000 \\sqrt{f_{ck}}$$ N/mm².",
-                "formula": "$$f_{cd} = \\frac{0.67 f_{ck}}{\\gamma_m} = \\frac{0.67 f_{ck}}{1.5} = 0.447 f_{ck}$$",
-                "notation": "**f_ck**: Characteristic 150mm cube compressive strength at 28 days<br>**f_cd**: Design axial compressive strength for flexure/compression structural design<br>**f_cr**: Characteristic flexural tensile strength (modulus of rupture)<br>**γ_m**: Partial safety factor for concrete material strength (Clause 36.4.2.1).",
-                "notes": "IS 456 strictly references 150mm cube strength as its baseline standard parameter."
-            },
-            {
-                "code_name": "Eurocode 2 (EN 1992-1-1)",
-                "clause": "Clause 3.1 & Table 3.1",
-                "limits": "• **Specimen Standard**: Mapped as $$f_{ck,cyl} / f_{ck,cube}$$ (e.g., C25/30 = 25 MPa cylinder / 30 MPa cube).<br>• **Design Compressive Strength ($$f_{cd}$$)**: $$\\alpha_{cc} f_{ck} / \\gamma_C$$ where $$\\alpha_{cc} = 0.85 - 1.0$$ and $$\\gamma_C = 1.5$$.<br>• **Mean Axial Tensile Strength ($$f_{ctm}$$)**: $$0.30 \\cdot f_{ck}^{(2/3)}$$ for $$\\le C50/60$$.<br>• **Design Tensile Strength ($$f_{ctd}$$)**: $$\\alpha_{ctd} f_{ctk,0.05} / \\gamma_C$$.",
-                "formula": "$$f_{cd} = \\frac{\\alpha_{cc} \\cdot f_{ck}}{\\gamma_C}$$",
-                "notation": "**f_ck**: Characteristic cylinder compressive strength ($$f_{ck,cyl}$$)<br>**f_ck,cube**: Characteristic 150mm cube strength<br>**f_cd**: Design compressive strength of concrete<br>**f_ctm**: Mean axial tensile strength of concrete (Table 3.1)<br>**α_cc**: Coefficient taking account of long term effects on compressive strength (Clause 3.1.6)<br>**γ_C**: Partial safety factor for concrete ($$1.5$$ for persistent/transient design situations).",
-                "notes": "Eurocode uses cylinder strength ($$f_{ck,cyl}$$) as the primary base input for design formulas."
-            },
-            {
-                "code_name": "ACI 318-19 (American Concrete Institute)",
-                "clause": "Sections 19.2.1 & 21.2.2",
-                "limits": "• **Specimen Standard**: 6x12 inch ($$150 \\times 300$$ mm) Cylinder tested at 28 days ($$f'_c$$).<br>• **Design Strength**: Incorporates strength reduction factor ($\\phi$) instead of material partial safety factor.<br>• **Modulus of Rupture ($$f_r$$)**: $$0.62 \\lambda \\sqrt{f'_c}$$ MPa ($$7.5 \\lambda \\sqrt{f'_c}$$ psi).<br>• **Modulus of Elasticity ($$E_c$$)**: $$4700 \\sqrt{f'_c}$$ MPa ($$57,000 \\sqrt{f'_c}$$ psi).",
-                "formula": "$$f_{cd} = \\phi f'_c$$",
-                "notation": "**f'_c**: Specified characteristic compressive strength of concrete measured using standard cylinders<br>**f_r**: Modulus of rupture (tensile strength under flexure)<br>**ϕ**: Strength reduction factor ($$0.65 - 0.90$$ depending on member section failure mode per Section 21.2)<br>**λ**: Lightweight concrete modification factor (Section 19.2.4).",
-                "notes": "ACI 318 does not use structural material partial factors ($$\\gamma_m$$); it scales capacities directly using overall section nominal reduction factors ($\\phi$)."
-            },
-            {
-                "code_name": "fib Model Code 2010",
-                "clause": "Chapter 5.1",
-                "limits": "• **Specimen Standard**: Standard Cylinder ($$f_{ck}$$). Cube equivalence defined via explicit conversion arrays.<br>• **Mean Compressive Strength ($$f_{cm}$$)**: $$f_{ck} + 8$$ MPa.<br>• **Mean Tensile Strength ($$f_{ctm}$$)**: $$0.30 \\cdot (f_{ck})^{2/3}$$ for $$\\le C50$$; $$2.12 \\cdot \\ln(1 + 0.1(f_{ck} + 8))$$ for $$> C50$$.",
-                "formula": "$$f_{cm} = f_{ck} + \\Delta f$$",
-                "notation": "**f_ck**: Characteristic cylinder compressive strength at 28 days<br>**f_cm**: Mean compressive strength of concrete<br>**Δf**: Margin offset stress equal to $$8\\text{ MPa}$$<br>**f_ctm**: Mean axial tensile strength across extended performance curves.",
-                "notes": "Serves as the analytical baseline framework for material property derivations across global codes."
-            }
-        ]
+      "title": "Concrete Characteristic Strength & Material Definitions",
+      "description": "Standardized material strength parameters, characteristic test specimen definitions (Cube vs. Cylinder), and calculated design values across major codes.",
+      "keywords": "fck fck_cube fck_cyl fctm fcd fctd strength grade characteristic cylinder cube concrete properties compressive tensile design strength",
+      "standards": [
+        {
+          "code_name": "IS 456:2000 (Indian Building Standard)",
+          "clause": "Clauses 3.6, 6.2.1, 6.2.2 & 38.1",
+          "limits": "• **Specimen Standard**: 150mm Cube tested at 28 days.<br>• **Standard Grades**: M20, M25, M30, M35, M40, M45, M50.<br>• **Design Compressive Strength ($$f_{cd}$$)**: $$0.447 f_{ck}$$ (Includes $$0.67$$ size-effect factor and $$\\gamma_m = 1.5$$).<br>• **Flexural Tensile Strength ($$f_{cr}$$)**: $$0.7 \\sqrt{f_{ck}}$$ N/mm².<br>• **Modulus of Elasticity ($$E_c$$)**: $$5000 \\sqrt{f_{ck}}$$ N/mm².",
+          "formula": "$$f_{cd} = \\frac{0.67 f_{ck}}{\\gamma_m} = \\frac{0.67 f_{ck}}{1.5} = 0.447 f_{ck}$$",
+          "notation": "**f_ck**: Characteristic 150mm cube compressive strength at 28 days<br>**f_cd**: Design axial compressive strength for flexure/compression structural design<br>**f_cr**: Characteristic flexural tensile strength (modulus of rupture)<br>**γ_m**: Partial safety factor for concrete material strength (Clause 36.4.2.1).",
+          "notes": "IS 456 strictly references 150mm cube strength as its baseline standard parameter."
+        },
+        {
+          "code_name": "Eurocode 2 (EN 1992-1-1)",
+          "clause": "Clause 3.1 & Table 3.1",
+          "limits": "• **Specimen Standard**: Mapped as $$f_{ck,cyl} / f_{ck,cube}$$ (e.g., C25/30 = 25 MPa cylinder / 30 MPa cube).<br>• **Design Compressive Strength ($$f_{cd}$$)**: $$\\alpha_{cc} f_{ck} / \\gamma_C$$ where $$\\alpha_{cc} = 0.85 - 1.0$$ and $$\\gamma_C = 1.5$$.<br>• **Mean Axial Tensile Strength ($$f_{ctm}$$)**: $$0.30 \\cdot f_{ck}^{(2/3)}$$ for $$\\le C50/60$$.<br>• **Design Tensile Strength ($$f_{ctd}$$)**: $$\\alpha_{ctd} f_{ctk,0.05} / \\gamma_C$$.",
+          "formula": "$$f_{cd} = \\frac{\\alpha_{cc} \\cdot f_{ck}}{\\gamma_C}$$",
+          "notation": "**f_ck**: Characteristic cylinder compressive strength ($$f_{ck,cyl}$$)<br>**f_ck,cube**: Characteristic 150mm cube strength<br>**f_cd**: Design compressive strength of concrete<br>**f_ctm**: Mean axial tensile strength of concrete (Table 3.1)<br>**α_cc**: Coefficient taking account of long term effects on compressive strength (Clause 3.1.6)<br>**γ_C**: Partial safety factor for concrete ($$1.5$$ for persistent/transient design situations).",
+          "notes": "Eurocode uses cylinder strength ($$f_{ck,cyl}$$) as the primary base input for design formulas."
+        },
+        {
+          "code_name": "ACI 318-19 (American Concrete Institute)",
+          "clause": "Sections 19.2.1 & 21.2.2",
+          "limits": "• **Specimen Standard**: 6x12 inch ($$150 \\times 300$$ mm) Cylinder tested at 28 days ($$f'_c$$).<br>• **Design Strength**: Incorporates strength reduction factor ($\\phi$) instead of material partial safety factor.<br>• **Modulus of Rupture ($$f_r$$)**: $$0.62 \\lambda \\sqrt{f'_c}$$ MPa ($$7.5 \\lambda \\sqrt{f'_c}$$ psi).<br>• **Modulus of Elasticity ($$E_c$$)**: $$4700 \\sqrt{f'_c}$$ MPa ($$57,000 \\sqrt{f'_c}$$ psi).",
+          "formula": "$$f_{cd} = \\phi f'_c$$",
+          "notation": "**f'_c**: Specified characteristic compressive strength of concrete measured using standard cylinders<br>**f_r**: Modulus of rupture (tensile strength under flexure)<br>**ϕ**: Strength reduction factor ($$0.65 - 0.90$$ depending on member section failure mode per Section 21.2)<br>**λ**: Lightweight concrete modification factor (Section 19.2.4).",
+          "notes": "ACI 318 does not use structural material partial factors ($$\\gamma_m$$); it scales capacities directly using overall section nominal reduction factors ($\\phi$)."
+        },
+        {
+          "code_name": "fib Model Code 2010",
+          "clause": "Chapter 5.1",
+          "limits": "• **Specimen Standard**: Standard Cylinder ($$f_{ck}$$). Cube equivalence defined via explicit conversion arrays.<br>• **Mean Compressive Strength ($$f_{cm}$$)**: $$f_{ck} + 8$$ MPa.<br>• **Mean Tensile Strength ($$f_{ctm}$$)**: $$0.30 \\cdot (f_{ck})^{2/3}$$ for $$\\le C50$$; $$2.12 \\cdot \\ln(1 + 0.1(f_{ck} + 8))$$ for $$> C50$$.",
+          "formula": "$$f_{cm} = f_{ck} + \\Delta f$$",
+          "notation": "**f_ck**: Characteristic cylinder compressive strength at 28 days<br>**f_cm**: Mean compressive strength of concrete<br>**Δf**: Margin offset stress equal to $$8\\text{ MPa}$$<br>**f_ctm**: Mean axial tensile strength across extended performance curves.",
+          "notes": "Serves as the analytical baseline framework for material property derivations across global codes."
+        }
+      ]
     }
+  }
 }
-
