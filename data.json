@@ -168,9 +168,7 @@
           "notation": "**A_s,min**: Minimum reinforcing steel area specifically for crack control limitations<br>**k_c / k**: Coefficient for stress distribution in the cross section / Coefficient for non-uniform self-equilibrating stresses<br>**f_ct,eff**: Effective tensile strength of concrete at the expected time of crack formation<br>**A_ct**: Area of concrete acting within the effective tension zone<br>**σ_s**: Maximum permitted steel stress immediately after crack formation.",
           "notes": "Performance-based minimums focused on the exact physics of crack propagation mechanics rather than empirical geometric ratios."
         },
-        # Script snippet to append the concrete_properties category to your master JSON dictionary in Python.
-
-concrete_properties_data = {
+        
     "concrete_properties": {
         "title": "Concrete Characteristic Strength & Material Definitions",
         "description": "Standardized material strength parameters, characteristic test specimen definitions (Cube vs. Cylinder), and calculated design values across major codes.",
